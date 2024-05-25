@@ -1,0 +1,9 @@
+{
+  "testnet": {
+    "owner": "",
+    "lp_mock_contract": "EQDxRo1u1qVA3JEG6qYdeD1DRbGHtpVQC-x6ivmzHoOT92gF",
+    "lp_mock_contract_url": "https://testnet.tonscan.org/address/EQDxRo1u1qVA3JEG6qYdeD1DRbGHtpVQC-x6ivmzHoOT92gF",
+    "main_contract": "EQC-FFmK57z3YIzDNS86tvxiKA9FnjUmGLTkDWhgbkoy2GXa",
+    "main_contract_url": "https://testnet.tonscan.org/address/EQC-FFmK57z3YIzDNS86tvxiKA9FnjUmGLTkDWhgbkoy2GXa"
+  }
+}
