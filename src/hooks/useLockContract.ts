@@ -44,8 +44,6 @@ export function useLockContract() {
       const { value: balance } = await lockContract.getBalance();
       setContractData(data);
       setBalance(Number(balance));
-      await sleep(10000);  // Update every 10 seconds
-      getValue();
     }
     getValue();
   }, [lockContract]);

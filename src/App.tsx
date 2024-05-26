@@ -22,87 +22,104 @@ function App() {
   
   const { connected } = useTonConnect();
   
-  return <div>
-    <div>
-      <TonConnectButton />
-    </div>
-    <div>
-      <div className="Card">
-        <b>Lock contract address:</b>
-        <div className="Hint">
-          {lock_contract_address?.slice(0, 30) + "..."}
+  return <div id="content">
+    <header className="header">
+      <TonConnectButton className="ton-connect-button" />
+    </header>
+    <div className="main">
+      <div className="card"> 
+        <div className="card-header">
+          Lock contract
+        </div>
+        <div className="card-item">
+          <div className="card-item-title">
+            Address
+          </div>
+          <div className="card-item-value">
+            {lock_contract_address?.slice(0, 30) + "..."}
+          </div>  
         </div>
 
         {lock_contract_balance !== null &&
-          <div>
-            <b>Lock contract balance:</b>
-            <div className="Hint">
+          <div className="card-item">
+            <div className="card-item-title">
+              Balance
+            </div>
+            <div className="card-item-value">
               {fromNano(BigInt(lock_contract_balance ?? 0))} TON
-            </div>
-            <b>Unlock price:</b>
-            <div className="Hint">
-              {lock_contract_data?.target_price ?? 0} TON
-            </div>
-            
+            </div>            
           </div>
         }
-      
-        <b>Lock contract owner:</b>
-        <div className="Hint">
-          {lock_contract_data?.owner_address?.toString() ?? "Loading..."}
-        </div>
-      
-        <br />
-        
-        {/* make deposit */}
-        {connected && (
-          <div>
-            <input type="text" name="deposit-value" id="deposit-value" value="0.01" />
-            <a onClick={() => {
-              const value = (document.getElementById("deposit-value") as HTMLInputElement).value;
-              sendDeposit(Number(value));
-            }}>
-              Deposit
-            </a>
+        <div className="card-item">
+          <div className="card-item-container">
+            <div>
+              <div className="card-item-title">
+                Unlock price
+              </div>
+              <div className="card-item-value">
+                {lock_contract_data?.target_price ?? 0} TON
+              </div>
+            </div>
+            {connected && (
+              <button onClick={() => {
+                sendWithdraw();
+              }}>
+                Withdraw
+              </button>
+            )}
           </div>
-        )}
-        
-        <br />
-        
-        {/* make withdraw */}
-        {connected && (
-          <a onClick={() => {
-            sendWithdraw();
-          }}>
-            Withdraw all TON and destroy contract
-          </a>
-        )}
-
-        <br />
+        </div>
       </div>
-      <div className="Card">
-        <b>LP contract address:</b>
-        <div className="Hint">
-          {lp_contract_address?.slice(0, 30) + "..."}
+      <div className="card">
+        <div className="card-header">
+          LP contract
+        </div>
+        <div className="card-item">
+          <div className="card-item-title">
+            Address
+          </div>
+          <div className="card-item-value">
+            {lp_contract_address?.slice(0, 30) + "..."}
+          </div>
         </div>
 
-        <br />
-        
-        <b>LP contract reserves:</b>
-        <p>USDT: {fromNano((lp_contract_data?.reserve0 ?? BigInt(0)) * BigInt(1000))} USDT</p>
-        <p>TON: {fromNano(lp_contract_data?.reserve1 ?? BigInt(0))} TON</p>
+        <div className="card-item">
+          <div className="card-item-title">
+            USDT Reserve
+          </div>
+          <div className="card-item-value">
+            {fromNano((lp_contract_data?.reserve0 ?? BigInt(0)) * BigInt(1000))} USDT
+          </div>
+        </div>
 
-        <b>LP Price:</b>
-        <p>1 TON = {Number(lp_contract_data?.reserve0 ?? 0) / (Number(lp_contract_data?.reserve1 ?? 1) / 1000)}</p>
+        <div className="card-item">
+          <div className="card-item-title">
+            TON Reserve
+          </div>
+          <div className="card-item-value">
+            {fromNano(lp_contract_data?.reserve1 ?? BigInt(0))} TON
+          </div>
+        </div>
 
-        {/* make get pool data */}
-        {connected && (
-          <a onClick={() => {
-            getPoolData();
-          }}>
-            Refresh pool data
-          </a>
-        )}
+        <div className="card-item">
+          <div className="card-item-container">
+            <div>
+              <div className="card-item-title">
+                LP price
+              </div>
+              <div className="card-item-value">
+                1 TON = {Number(lp_contract_data?.reserve0 ?? 0) / (Number(lp_contract_data?.reserve1 ?? 1) / 1000)}
+              </div>
+            </div>
+            {connected && (
+              <button onClick={() => {
+                getPoolData();
+              }}>
+                Change
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   </div>;
