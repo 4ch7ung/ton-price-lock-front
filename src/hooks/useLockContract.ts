@@ -17,8 +17,6 @@ export function useLockContract() {
   const tonClient = useTonClient();
   const { sender } = useTonConnect();
 
-  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
   const [contractData, setContractData] = useState<null | LockContractData>();
 
   const [balance, setBalance] = useState<null | number>(null);

@@ -10,7 +10,6 @@ function App() {
     contract_address: lock_contract_address,
     contract_balance: lock_contract_balance,
     contract_data: lock_contract_data,
-    sendDeposit,
     sendWithdraw
   } = useLockContract();
   
