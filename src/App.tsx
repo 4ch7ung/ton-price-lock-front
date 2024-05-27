@@ -8,7 +8,7 @@ import { CopyButton } from './components/CopyButton';
 import WebApp from '@twa-dev/sdk';
 
 function App() {
-  const isInTWA = WebApp.platform == "unknown";
+  const isInTWA = WebApp.platform != "unknown";
 
   const {
     contractAddress: lockContractAddress,
