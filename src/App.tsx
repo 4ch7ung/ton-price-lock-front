@@ -4,49 +4,79 @@ import { useLockContract } from './hooks/useLockContract';
 import { useLPContract } from './hooks/useLPContract';
 import { fromNano } from '@ton/core';
 import { useTonConnect } from './hooks/useTonConnect';
+import { CopyButton } from './components/CopyButton';
 
 function App() {
   const {
-    contract_address: lock_contract_address,
-    contract_balance: lock_contract_balance,
-    contract_data: lock_contract_data,
+    contractAddress: lockContractAddress,
+    contractBalance: lockContractBalance,
+    contractData: lockContractData,
+    refresh: getLockData,
+    sendDeposit,
     sendWithdraw
   } = useLockContract();
   
   const {
-    contract_address: lp_contract_address,
-    contract_data: lp_contract_data,
-    getPoolData
+    contractAddress: lpContractAddress,
+    contractData: lpContractData,
+    contractPrice: lpContractPrice,
+    refresh: getPoolData,
+    changeLPPrice
   } = useLPContract();
   
   const { connected } = useTonConnect();
   
   return <div id="content">
     <header className="header">
+      <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET</b>
       <TonConnectButton className="ton-connect-button" />
     </header>
     <div className="main">
       <div className="card"> 
         <div className="card-header">
-          Lock contract
+          <span>Lock contract</span>
+          <button className="card-header-button" onClick={() => {
+            getLockData();
+          }}>
+            Refresh
+          </button>
         </div>
         <div className="card-item">
           <div className="card-item-title">
             Address
           </div>
-          <div className="card-item-value">
-            {lock_contract_address?.slice(0, 30) + "..."}
-          </div>  
+          <div className="card-item-value card-item-container">
+            <span>{lockContractAddress?.slice(0, 30) + "..."}</span>
+            <CopyButton onClick={() => {
+              navigator.clipboard.writeText(lockContractAddress ?? "");
+            }} />
+          </div>
         </div>
 
-        {lock_contract_balance !== null &&
+        {lockContractBalance !== null &&
           <div className="card-item">
-            <div className="card-item-title">
-              Balance
+            <div className="card-item-container">
+              <div>
+                <div className="card-item-title">
+                  Balance
+                </div>
+                <div className="card-item-value">
+                  {fromNano(BigInt(lockContractBalance ?? 0))} TON
+                </div>
+              </div>
+              {connected && (
+              <button className="card-item-button" onClick={() => {
+                const value = prompt("Enter amount to deposit", "0");
+                if (value === null || value == "") return;
+                else {
+                  const amount = parseFloat(value);
+                  sendDeposit(amount);
+                }
+              }}>
+                Deposit
+              </button>
+              )}
             </div>
-            <div className="card-item-value">
-              {fromNano(BigInt(lock_contract_balance ?? 0))} TON
-            </div>            
           </div>
         }
         <div className="card-item">
@@ -56,11 +86,11 @@ function App() {
                 Unlock price
               </div>
               <div className="card-item-value">
-                {lock_contract_data?.target_price ?? 0} TON
+                {lockContractData?.target_price ?? 0} TON
               </div>
             </div>
             {connected && (
-              <button onClick={() => {
+              <button className="card-item-button" onClick={() => {
                 sendWithdraw();
               }}>
                 Withdraw
@@ -71,14 +101,23 @@ function App() {
       </div>
       <div className="card">
         <div className="card-header">
-          LP contract
+          <span>LP contract</span>
+          <button className="card-header-button" onClick={() => {
+              getPoolData();
+            } 
+          }>
+            Refresh
+          </button>
         </div>
         <div className="card-item">
           <div className="card-item-title">
             Address
           </div>
-          <div className="card-item-value">
-            {lp_contract_address?.slice(0, 30) + "..."}
+          <div className="card-item-value card-item-container">
+            <span>{lpContractAddress?.slice(0, 30) + "..."}</span>
+            <CopyButton onClick={() => {
+              navigator.clipboard.writeText(lpContractAddress ?? "");
+            }} />
           </div>
         </div>
 
@@ -87,7 +126,7 @@ function App() {
             USDT Reserve
           </div>
           <div className="card-item-value">
-            {fromNano((lp_contract_data?.reserve0 ?? BigInt(0)) * BigInt(1000))} USDT
+            {fromNano((lpContractData?.reserve0 ?? BigInt(0)) * BigInt(1000))} USDT
           </div>
         </div>
 
@@ -96,7 +135,7 @@ function App() {
             TON Reserve
           </div>
           <div className="card-item-value">
-            {fromNano(lp_contract_data?.reserve1 ?? BigInt(0))} TON
+            {fromNano(lpContractData?.reserve1 ?? BigInt(0))} TON
           </div>
         </div>
 
@@ -107,12 +146,17 @@ function App() {
                 LP price
               </div>
               <div className="card-item-value">
-                1 TON = {Number(lp_contract_data?.reserve0 ?? 0) / (Number(lp_contract_data?.reserve1 ?? 1) / 1000)}
+                1 TON = {lpContractPrice.toFixed(2)} USDT
               </div>
             </div>
             {connected && (
-              <button onClick={() => {
-                getPoolData();
+              <button className="card-item-button" onClick={() => {
+                const newPrice = prompt("Enter new price", lpContractPrice.toFixed(2));
+                if (newPrice === null || newPrice == "") return;
+                else {
+                  const price = parseFloat(newPrice);
+                  changeLPPrice(price);
+                }
               }}>
                 Change
               </button>

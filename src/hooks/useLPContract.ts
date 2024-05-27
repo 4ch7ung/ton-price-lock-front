@@ -37,10 +37,7 @@ export function useLPContract() {
 
   useEffect(() => {
     async function getValue() {
-      if (!lpContract) {
-        return;
-      }
-
+      if (!lpContract) return;
       setContractData(null);
       const data = await lpContract.getPoolData();
       setContractData(data);
@@ -48,16 +45,22 @@ export function useLPContract() {
     getValue();
   }, [lpContract]);
 
+  const contractPrice = Number(contractData?.reserve0 ?? 0) / (Number(contractData?.reserve1 ?? 1) / 1000);
+
   return {
-    contract_address: lpContract?.address.toString(),
-    contract_data: contractData,
-    getPoolData: async() => {
+    contractAddress: lpContract?.address.toString(),
+    contractData: contractData,
+    contractPrice: contractPrice,
+    refresh: async() => {
       if (lpContract == null) return;
       setContractData(null);
       const data = await lpContract.getPoolData();
       setContractData(data);
     },
-    sendSetReserves: async(reserve0: bigint, reserve1: bigint) => {
+    changeLPPrice: async(price: number) => {
+      if (lpContract == null || contractData == null) return;
+      var reserve0 = contractData.reserve0;
+      const reserve1 = BigInt(Math.round(Number(reserve0) / price * 1000));
       return lpContract?.sendSetReservesMessage(sender, reserve0, reserve1);
     }
   }

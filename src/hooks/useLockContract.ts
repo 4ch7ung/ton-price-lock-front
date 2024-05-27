@@ -44,12 +44,12 @@ export function useLockContract() {
       setBalance(Number(balance));
     }
     getValue();
-  }, [lockContract]);
+  }, [lockContract, tonClient]);
 
   return {
-    contract_address: lockContract?.address.toString(),
-    contract_balance: balance,
-    contract_data: contractData,
+    contractAddress: lockContract?.address.toString(),
+    contractBalance: balance,
+    contractData: contractData,
     sendDeposit: async(value: number) => {
       return lockContract?.sendDepositMessage(sender, toNano(value));
     },
@@ -58,6 +58,17 @@ export function useLockContract() {
     },
     sendDestroy: async() => {
       return lockContract?.sendDestroyMessage(sender);
+    },
+    refresh: async() => {
+      if (lockContract == null) {
+        return;
+      }
+
+      setContractData(null);
+      const data = await lockContract.getData();
+      const { value: balance } = await lockContract.getBalance();
+      setContractData(data);
+      setBalance(Number(balance));
     }
   }
 }
