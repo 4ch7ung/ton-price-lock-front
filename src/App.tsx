@@ -8,6 +8,8 @@ import { CopyButton } from './components/CopyButton';
 import WebApp from '@twa-dev/sdk';
 
 function App() {
+  const isInTWA = WebApp.platform == "unknown";
+
   const {
     contractAddress: lockContractAddress,
     contractBalance: lockContractBalance,
@@ -26,10 +28,12 @@ function App() {
   } = useLPContract();
   
   const { connected } = useTonConnect();
+
+  if (isInTWA) WebApp.expand();
   
   return <div id="content">
     <header className="header">
-      <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET - {WebApp.platform}</b>
+      <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET{isInTWA ? " - " + WebApp.platform : ""}</b>
       <TonConnectButton className="ton-connect-button" />
     </header>
     <div className="main">
@@ -37,7 +41,8 @@ function App() {
         <div className="card-header">
           <span>Lock contract</span>
           <button className="card-header-button" onClick={() => {
-            WebApp.showAlert("Refreshing lock contract data", () => { getLockData() });
+            if (isInTWA) WebApp.showAlert("Refreshing lock contract data", () => { getLockData() });
+            else getLockData();
           }}>
             Refresh
           </button>
