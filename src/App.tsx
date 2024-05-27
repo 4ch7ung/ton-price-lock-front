@@ -5,6 +5,7 @@ import { useLPContract } from './hooks/useLPContract';
 import { fromNano } from '@ton/core';
 import { useTonConnect } from './hooks/useTonConnect';
 import { CopyButton } from './components/CopyButton';
+import WebApp from '@twa-dev/sdk';
 
 function App() {
   const {
@@ -28,7 +29,7 @@ function App() {
   
   return <div id="content">
     <header className="header">
-      <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET</b>
+      <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET - {WebApp.platform}</b>
       <TonConnectButton className="ton-connect-button" />
     </header>
     <div className="main">
@@ -36,7 +37,7 @@ function App() {
         <div className="card-header">
           <span>Lock contract</span>
           <button className="card-header-button" onClick={() => {
-            getLockData();
+            WebApp.showAlert("Refreshing lock contract data", () => { getLockData() });
           }}>
             Refresh
           </button>
