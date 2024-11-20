@@ -1,6 +1,5 @@
 import './App.css'
 import { TonConnectButton } from '@tonconnect/ui-react';
-import { useTonConnect } from './hooks/useTonConnect';
 import WebApp from '@twa-dev/sdk';
 import { LpContractCard } from './components/LpContractCard';
 import { Network } from './hooks/useTonClient';
