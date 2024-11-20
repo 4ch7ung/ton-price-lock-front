@@ -13,5 +13,5 @@ export function shortenAddress(address: Address | string | undefined): string {
     return address.slice(0, 21) + "..." + address.slice(-6);
   } else {
     return address;
-  };
+  }
 }

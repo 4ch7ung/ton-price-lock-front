@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { PriceLockMinter } from "../contracts/PriceLockMinter";
-import { useTonClient } from "./useTonClient";
+import { useTonClient, Network } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, Cell, OpenedContract, toNano } from "@ton/core";
-import { useTonConnect, Network } from "./useTonConnect";
+import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
 import { ADDRESSES } from "../addresses";
 

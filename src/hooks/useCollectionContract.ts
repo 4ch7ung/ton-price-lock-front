@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { PriceLockNftCollection } from "../contracts/PriceLockNftCollection";
-import { useTonClient } from "./useTonClient";
+import { useTonClient, Network } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract } from "@ton/core";
-import { useTonConnect, Network } from "./useTonConnect";
+import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../addresses";
 import { shortenAddress } from "../utils/formattingUtils";
 
@@ -36,7 +36,7 @@ export function useCollectionContract(network: Network = "testnet") {
     }
 
     setContractData(null);
-    const data = await collectionContract.getCollectionData();;
+    const data = await collectionContract.getCollectionData();
     const minterAddress = await collectionContract.getMinterAddress();
     setContractData({ 
       ...data,

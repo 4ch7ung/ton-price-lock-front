@@ -2,7 +2,7 @@ import React from 'react';
 import { Network } from '../hooks/useTonClient';
 import { useMinterContract } from '../hooks/useMinterContract';
 import { CopyButton } from './CopyButton';
-import { Address, fromNano } from '@ton/core';
+import { fromNano } from '@ton/core';
 import { useTonConnect } from '../hooks/useTonConnect';
 
 interface MinterContractCardProps {

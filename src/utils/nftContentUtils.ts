@@ -8,11 +8,11 @@ export function flattenSnakeCell(cell: Cell) {
   let result = Buffer.alloc(0)
   
   while (currentCell) {
-    let cs = currentCell.beginParse()
+    const cs = currentCell.beginParse()
     if (cs.remainingBits % 8 !== 0) {
       throw Error('Number remaining of bits is not multiply of 8');
     }
-    let data = cs.loadBuffer(cs.remainingBits / 8)
+    const data = cs.loadBuffer(cs.remainingBits / 8)
     result = Buffer.concat([result, data])
     currentCell = currentCell.refs[0]
   }
@@ -21,7 +21,7 @@ export function flattenSnakeCell(cell: Cell) {
 }
 
 function bufferToChunks(buff: Buffer, chunkSize: number) {
-  let chunks: Buffer[] = []
+  const chunks: Buffer[] = []
   while (buff.byteLength > 0) {
     chunks.push(buff.subarray(0, chunkSize))
     buff = buff.subarray(chunkSize)
@@ -49,13 +49,13 @@ function _snakeCell(chunks: Buffer[]): Cell | null {
 }
 
 export function makeSnakeCell(data: Buffer) {
-  let chunks = bufferToChunks(data, 127).reverse();
+  const chunks = bufferToChunks(data, 127).reverse();
   
   if (chunks.length === 0) {
     return beginCell().endCell(); // practically impossible
   }
   
-  let rootCell = _snakeCell(chunks);
+  const rootCell = _snakeCell(chunks);
   if (!rootCell) {
     throw new Error('Failed to create snake cell');
   }
@@ -65,16 +65,16 @@ export function makeSnakeCell(data: Buffer) {
 export function encodeOffChainContent(content: string, withPrefix: boolean = true) {
   let data = Buffer.from(content)
   if (withPrefix) {
-    let offChainPrefix = Buffer.from([OFF_CHAIN_CONTENT_PREFIX])
+    const offChainPrefix = Buffer.from([OFF_CHAIN_CONTENT_PREFIX])
     data = Buffer.concat([offChainPrefix, data])
   }
   return makeSnakeCell(data)
 }
 
 export function decodeOffChainContent(content: Cell, withPrefix: boolean = true) {
-  let data = flattenSnakeCell(content)
+  const data = flattenSnakeCell(content)
   
-  let prefix = data[0]
+  const prefix = data[0]
   if (withPrefix && prefix !== OFF_CHAIN_CONTENT_PREFIX) {
     throw new Error(`Unknown content prefix: ${prefix.toString(16)}`)
   }

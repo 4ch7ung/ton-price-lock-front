@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { LPMockContract } from "../contracts/LPMockContract";
-import { useTonClient } from "./useTonClient";
+import { useTonClient, Network } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract } from "@ton/core";
-import { useTonConnect, Network } from "./useTonConnect";
+import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../addresses";
 import { shortenAddress } from "../utils/formattingUtils";
 
@@ -59,7 +59,7 @@ export function useLPContract(network: Network = "testnet") {
     },
     changeLPPrice: async(price: number) => {
       if (lpContract == null || contractData == null) return;
-      var reserve0 = contractData.reserve0;
+      const reserve0 = contractData.reserve0;
       const reserve1 = BigInt(Math.round(Number(reserve0) / price * 1000));
       return lpContract?.sendSetReservesMessage(sender, reserve0, reserve1);
     }

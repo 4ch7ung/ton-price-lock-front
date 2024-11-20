@@ -28,18 +28,18 @@ const nftMinStorage = 0.05;
 //           = Storage;
 
 export function buildNftCollectionDataCell(data: PriceLockNftCollectionData) {
-  let dataCell = beginCell();
+  const dataCell = beginCell();
   
   dataCell.storeAddress(data.ownerAddress);
   dataCell.storeUint(data.nextItemIndex, 64);
   
-  let collectionContent = encodeOffChainContent(data.collectionContent);
+  const collectionContent = encodeOffChainContent(data.collectionContent);
   
-  let commonContent = beginCell()
+  const commonContent = beginCell()
     .storeBuffer(Buffer.from(data.commonContent))
     .endCell();
   
-  let contentCell = beginCell()
+  const contentCell = beginCell()
     .storeRef(collectionContent)
     .storeRef(commonContent)
     .endCell();
@@ -47,7 +47,7 @@ export function buildNftCollectionDataCell(data: PriceLockNftCollectionData) {
   dataCell.storeRef(contentCell);
   dataCell.storeRef(data.nftItemCode);
   
-  let royaltyCell = beginCell()
+  const royaltyCell = beginCell()
     .storeUint(data.royaltyParams.royaltyFactor, 16)
     .storeUint(data.royaltyParams.royaltyBase, 16)
     .storeAddress(data.royaltyParams.royaltyAddress)
@@ -60,14 +60,14 @@ export function buildNftCollectionDataCell(data: PriceLockNftCollectionData) {
 }
 
 export function buildNftCollectionStateInit(conf: PriceLockNftCollectionData, codeCell: Cell) {
-  let dataCell = buildNftCollectionDataCell(conf)
+  const dataCell = buildNftCollectionDataCell(conf)
   
-  let stateInit = {
+  const stateInit = {
     code: codeCell,
     data: dataCell
   };
   
-  let stateInitCell = beginCell();
+  const stateInitCell = beginCell();
   storeStateInit(stateInit)(stateInitCell);
   
   return {
@@ -126,7 +126,7 @@ export const Queries = {
       .storeBuffer(Buffer.from(params.itemInput.content))
       .endCell();
     
-    let nftItemMessage = beginCell()
+    const nftItemMessage = beginCell()
       .storeAddress(params.itemInput.ownerAddress)
       .storeUint(refinedTargetPrice, 32)
       .storeRef(lpConfig)
@@ -154,7 +154,7 @@ export const Queries = {
       .storeBuffer(Buffer.from(params.itemInput.content))
       .endCell();
     
-    let nftItemMessage = beginCell()
+    const nftItemMessage = beginCell()
       .storeAddress(params.itemInput.ownerAddress)
       .storeUint(refinedTargetPrice, 32)
       .storeRef(lpConfig)
@@ -170,7 +170,7 @@ export const Queries = {
       throw new Error('Too long list');
     }
     
-    let dict: Dictionary<number, Cell> = Dictionary.empty();
+    const dict: Dictionary<number, Cell> = Dictionary.empty();
     
     const itemsFactory = (item: PriceLockCollectionMintItemInput): Cell => {
       const lpConfig = beginCell()
@@ -194,11 +194,11 @@ export const Queries = {
       return nftItemMessage;
     }
     
-    for (let item of params.items) {
+    for (const item of params.items) {
       dict.set(item.index!, itemsFactory(item));
     }
     
-    let msgBody = beginCell()
+    const msgBody = beginCell()
       .storeUint(OperationCodes.batchMint, 32)
       .storeUint(params.queryId || 0, 64)
       .storeDict(dict, Dictionary.Keys.Uint(64), {
@@ -217,42 +217,42 @@ export const Queries = {
     return msgBody.endCell();
   },
   changeOwner: (params: { queryId?: number, newOwner: Address}) => {
-    let msgBody = beginCell()
+    const msgBody = beginCell()
       .storeUint(OperationCodes.changeOwner, 32)
       .storeUint(params.queryId || 0, 64)
       .storeAddress(params.newOwner);
     return msgBody.endCell();
   },
   changeMinter: (params: { queryId?: number, newMinter: Address }) => {
-    let msgBody = beginCell()
+    const msgBody = beginCell()
       .storeUint(OperationCodes.changeMinter, 32)
       .storeUint(params.queryId || 0, 64)
       .storeAddress(params.newMinter);
     return msgBody.endCell();
   },
   getRoyaltyParams: (params: { queryId?: number }) => {
-    let msgBody = beginCell()
+    const msgBody = beginCell()
       .storeUint(OperationCodes.getRoyaltyParams, 32)
       .storeUint(params.queryId || 0, 64);
     return msgBody.endCell();
   },
   // not implemented in contract
   editContent: (params: { queryId?: number,  collectionContent: string, commonContent: string,  royaltyParams: RoyaltyParams  }) => {
-    let royaltyCell = beginCell()
+    const royaltyCell = beginCell()
       .storeUint(params.royaltyParams.royaltyFactor, 16)
       .storeUint(params.royaltyParams.royaltyBase, 16)
       .storeAddress(params.royaltyParams.royaltyAddress);
     
-    let collectionContent = encodeOffChainContent(params.collectionContent);
+    const collectionContent = encodeOffChainContent(params.collectionContent);
     
-    let commonContent = beginCell()
+    const commonContent = beginCell()
       .storeBuffer(Buffer.from(params.commonContent));
     
-    let contentCell = beginCell()
+    const contentCell = beginCell()
       .storeRef(collectionContent)
       .storeRef(commonContent);
     
-    let msgBody = beginCell()
+    const msgBody = beginCell()
       .storeUint(OperationCodes.editContent, 32)
       .storeUint(params.queryId || 0, 64)
       .storeRef(contentCell)
