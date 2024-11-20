@@ -1,11 +1,13 @@
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { getHttpEndpoint } from "@orbs-network/ton-access";
+import { getHttpEndpoint, Network as OrbsNetwork } from "@orbs-network/ton-access";
 import { TonClient } from "@ton/ton";
 
-export function useTonClient() {
+export type Network = OrbsNetwork;
+
+export function useTonClient(network: OrbsNetwork = "testnet") {
   return useAsyncInitialize(async () => {
     return new TonClient({
-      endpoint: await getHttpEndpoint({ network: "testnet" }),
+      endpoint: await getHttpEndpoint({ network: network }),
     });
   });
 }

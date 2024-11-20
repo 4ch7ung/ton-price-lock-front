@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { LPContract } from "../contracts/LPContract";
+import { LPMockContract } from "../contracts/LPMockContract";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract } from "@ton/core";
-import { useTonConnect } from "./useTonConnect";
+import { useTonConnect, Network } from "./useTonConnect";
 import { ADDRESSES } from "../addresses";
+import { shortenAddress } from "../utils/formattingUtils";
 
 export type LPContractData = {
   reserve0: bigint,
@@ -19,8 +20,8 @@ export type LPContractData = {
   collected_token1_protocol_fee: bigint
 };
 
-export function useLPContract() {
-  const tonClient = useTonClient();
+export function useLPContract(network: Network = "testnet") {
+  const tonClient = useTonClient(network);
   const { sender } = useTonConnect();
 
   const [contractData, setContractData] = useState<null | LPContractData>();
@@ -31,31 +32,30 @@ export function useLPContract() {
     }
 
     const address = Address.parse(ADDRESSES.testnet.lp_contract);
-    const contract = new LPContract(address);
-    return tonClient.open(contract) as OpenedContract<LPContract>;
+    const contract = new LPMockContract(address);
+    return tonClient.open(contract) as OpenedContract<LPMockContract>;
   }, [tonClient]);
 
-  useEffect(() => {
-    async function getValue() {
-      if (!lpContract) return;
-      setContractData(null);
-      const data = await lpContract.getPoolData();
-      setContractData(data);
-    }
+  async function getValue() {
+    if (!lpContract) return;
+    setContractData(null);
+    const data = await lpContract.getPoolData();
+    setContractData(data);
+  }
+
+  useEffect(() => { 
     getValue();
   }, [lpContract]);
 
   const contractPrice = Number(contractData?.reserve0 ?? 0) / (Number(contractData?.reserve1 ?? 1) / 1000);
 
   return {
-    contractAddress: lpContract?.address.toString(),
+    contractAddress: shortenAddress(lpContract?.address.toString()),
+    contractAddressFull: lpContract?.address.toString(),
     contractData: contractData,
     contractPrice: contractPrice,
     refresh: async() => {
-      if (lpContract == null) return;
-      setContractData(null);
-      const data = await lpContract.getPoolData();
-      setContractData(data);
+      getValue();
     },
     changeLPPrice: async(price: number) => {
       if (lpContract == null || contractData == null) return;

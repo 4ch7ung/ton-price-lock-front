@@ -1,16 +1,18 @@
 export const ADDRESSES = {
   "testnet": {
-    "owner": "kQAomCdjy5XAE7u1HP294s6rL3suN4B_sPu3Hbx06OgNWqzH",
-    "lp_contract": "EQD4n-FzHVwd_CMtdlt0b2LA1f5lxUaliuLHGqTE5LK8UttT",
-    "lp_contract_url": "https://testnet.tonscan.org/address/EQD4n-FzHVwd_CMtdlt0b2LA1f5lxUaliuLHGqTE5LK8UttT",
-    "lock_contract": "EQDMTVQRrRIj-DMlS699SB01LNKyR_7Ckb9fDSxpQzd_f4B_",
-    "lock_contract_url": "https://testnet.tonscan.org/address/EQDMTVQRrRIj-DMlS699SB01LNKyR_7Ckb9fDSxpQzd_f4B_"
+    "lp_contract": "kQCaMjQIcBvgzCE9o31ytKWTIFVOkB18YuJZ3W6g7OWsvrvc",
+    "lp_contract_url": "https://testnet.tonscan.org/address/kQCaMjQIcBvgzCE9o31ytKWTIFVOkB18YuJZ3W6g7OWsvrvc",
+    "minter_contract": "kQBgT2E9ZEMX0KPNDedkgoQzYY9LVWbfYgS82MRt3iFXOLvF",
+    "minter_contract_url": "https://testnet.tonscan.org/address/kQBgT2E9ZEMX0KPNDedkgoQzYY9LVWbfYgS82MRt3iFXOLvF",
+    "collection_contract": "kQC5IR-GtGgJXmhj7VtAs8VLCEFQzHP_ANl3YRbU0af6p_7k",
+    "collection_contract_url": "https://testnet.tonscan.org/address/kQC5IR-GtGgJXmhj7VtAs8VLCEFQzHP_ANl3YRbU0af6p_7k",
   },
   "mainnet": {
-    "owner": "UQC_XWPfH4SgkIj3E59IdcPYIm8bVzWnhmgVEDVpzkFt3GhT",
-    "lp_contract": "EQD8TJ8xEWB1SpnRE4d89YO3jl0W0EiBnNS4IBaHaUmdfizE",
-    "lp_contract_url": "https://tonscan.org/address/EQD8TJ8xEWB1SpnRE4d89YO3jl0W0EiBnNS4IBaHaUmdfizE",
-    "lock_contract": "",
-    "lock_contract_url": ""
+    "lp_contract": "",
+    "lp_contract_url": "",
+    "minter_contract": "",
+    "minter_contract_url": "",
+    "collection_contract": "",
+    "collection_contract_url": "",
   },
-}
+};
