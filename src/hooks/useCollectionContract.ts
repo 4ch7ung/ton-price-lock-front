@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { PriceLockNftCollection } from "../contracts/PriceLockNftCollection";
-import { useTonClient, Network } from "./useTonClient";
+import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../addresses";
 import { shortenAddress } from "../utils/formattingUtils";
+import { Network } from "../utils/types";
 
 export type CollectionData = {
   nextItemId: number;

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { LPMockContract } from "../contracts/LPMockContract";
-import { useTonClient, Network } from "./useTonClient";
+import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../addresses";
 import { shortenAddress } from "../utils/formattingUtils";
+import { Network } from "../utils/types";
 
 export type LPContractData = {
   reserve0: bigint,

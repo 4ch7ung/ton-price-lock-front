@@ -2,8 +2,9 @@ import './App.css'
 import { TonConnectButton } from '@tonconnect/ui-react';
 import WebApp from '@twa-dev/sdk';
 import { LpContractCard } from './components/LpContractCard';
-import { Network } from './hooks/useTonClient';
+import { Network } from './utils/types';
 import { MinterContractCard } from './components/MinterContractCard';
+import { NftListSection } from './components/NftListSection';
 
 function App() {
   const isInTWA = WebApp.platform != "unknown";
@@ -19,8 +20,13 @@ function App() {
       <TonConnectButton className="ton-connect-button" />
     </header>
     <div className="main">
-      <MinterContractCard network={network} />
-      <LpContractCard network={network} />
+      <div className="main-section">
+        <MinterContractCard network={network} />
+        <LpContractCard network={network} />
+      </div>
+      <div className="main-section">
+        <NftListSection network={network} />
+      </div>
     </div>
   </div>;
 }

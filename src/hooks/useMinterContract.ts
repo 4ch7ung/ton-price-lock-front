@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { PriceLockMinter } from "../contracts/PriceLockMinter";
-import { useTonClient, Network } from "./useTonClient";
+import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { Address, Cell, OpenedContract, toNano } from "@ton/core";
+import { Address, Cell, fromNano, OpenedContract, toNano } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
 import { ADDRESSES } from "../addresses";
+import { Network } from "../utils/types";
 
 export type MinterData = {
   royaltyParam: bigint;
@@ -22,7 +23,7 @@ export function useMinterContract(network: Network = "testnet") {
 
   const [contractData, setContractData] = useState<null | MinterData>();
 
-  const [balance, setBalance] = useState<null | number>(null);
+  const [balance, setBalance] = useState<null | string>(null);
 
   const minterContract = useAsyncInitialize(async () => {
     if (!tonClient) {
@@ -40,14 +41,20 @@ export function useMinterContract(network: Network = "testnet") {
     }
 
     setContractData(null);
+    setBalance(null);
     const data = await minterContract.getContractData();
-    const owner = await minterContract.getOwnerAddress();
-    const balance = await minterContract.getBalance();
+    let ownerAddress = null;
+    let balance = null;
+    const ownerAndBalance = await minterContract.getOwnerAndBalance();
+    if (ownerAndBalance) {
+      ownerAddress = ownerAndBalance.owner;
+      balance = fromNano(ownerAndBalance.balance);
+    }
     setContractData({
       ...data,
-      owner
+      owner: ownerAddress
     });
-    setBalance(Number(balance));
+    setBalance(balance);
   }
 
   useEffect(() => { 

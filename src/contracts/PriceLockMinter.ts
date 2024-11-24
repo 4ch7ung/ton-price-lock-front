@@ -54,8 +54,8 @@ export class PriceLockMinter implements Contract {
     }
   }
 
-  async getOwnerAddress(provider: ContractProvider): Promise<Address | null> {
-    const { state } = await provider.getState();
+  async getOwnerAndBalance(provider: ContractProvider) {
+    const { state, balance } = await provider.getState();
     if (state.type !== 'active') {
       return null;
     }
@@ -63,17 +63,9 @@ export class PriceLockMinter implements Contract {
     const data = state.data!;
     const reader = Cell.fromBoc(data)[0].beginParse();
     
-    return reader.loadAddress();
+    return { owner: reader.loadAddress(), balance: balance };
   }
 
-  async getBalance(
-    provider: ContractProvider
-  ) {
-    const { balance } = await provider.getState();
-    
-    return balance;
-  }
-  
   //
   // Internal messages
   //
