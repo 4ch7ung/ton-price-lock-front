@@ -79,7 +79,7 @@ export class ToncenterApi {
         const { code , error } = await response.json();
         throw new Error(`Failed to fetch NFT items: ${response.statusText}, code: ${code}, error: ${error}`);
       } else {
-        throw new Error(`Failed to fetch NFT items: ${response.statusText}`);
+        throw new Error(`Failed to fetch NFT items: ${response.statusText}, code: ${response.status}`);
       }
     }
 

@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PriceLockNftCollection } from "../contracts/PriceLockNftCollection";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
-import { ADDRESSES } from "../addresses";
+import { ADDRESSES } from "../utils/addresses";
 import { shortenAddress } from "../utils/formattingUtils";
-import { Network } from "../utils/types";
 
 export type CollectionData = {
   nextItemId: number;
@@ -15,9 +14,9 @@ export type CollectionData = {
   minterAddress: string;
 };
 
-export function useCollectionContract(network: Network = "testnet") {
-  const tonClient = useTonClient(network);
-  const { sender } = useTonConnect();
+export function useCollectionContract() {
+  const tonClient = useTonClient();
+  const { sender, connected } = useTonConnect();
 
   const [contractData, setContractData] = useState<null | CollectionData>();
 
@@ -31,7 +30,7 @@ export function useCollectionContract(network: Network = "testnet") {
     return tonClient.open(contract) as OpenedContract<PriceLockNftCollection>;
   }, [tonClient]);
 
-  async function updateContractData() {
+  const updateContractData = useCallback(async () => {
     if (!collectionContract) {
       return;
     }
@@ -44,16 +43,17 @@ export function useCollectionContract(network: Network = "testnet") {
       ownerAddress: data.ownerAddress.toString(),
       minterAddress: minterAddress.toString()
     });
-  }
-
-  useEffect(() => { 
-    updateContractData();
   }, [collectionContract]);
+
+  useEffect(() => {
+    updateContractData();
+  }, [collectionContract, updateContractData]);
 
   return {
     contractAddress: shortenAddress(collectionContract?.address.toString()),
     contractAddressFull: collectionContract?.address.toString(),
     contractData: contractData,
+    isConnected: connected,
     sendChangeOwner: async(newOwner: string) => {
       const newOwnerAddress = Address.parse(newOwner);
       return collectionContract?.sendChangeOwner(sender, newOwnerAddress);

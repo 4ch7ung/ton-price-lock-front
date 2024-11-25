@@ -9,4 +9,4 @@ export function CardHeader({ title, onRefresh }: { title: string, onRefresh?: ()
       )}
     </div>
   );
-};
+}

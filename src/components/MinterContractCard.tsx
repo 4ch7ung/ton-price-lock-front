@@ -1,22 +1,20 @@
-import { Network } from '../utils/types';
 import { useMinterContract } from '../hooks/useMinterContract';
-import { useTonConnect } from '../hooks/useTonConnect';
 import { CardHeader } from './card/CardHeader';
 import { CardItem } from './card/CardItem';
 import { CardItemWithButton } from './card/CardItemWithButton';
 
-export function MinterContractCard({ network }: { network: Network }) {
+export function MinterContractCard() {
+
   const {
     contractAddress,
     contractAddressFull,
     contractBalance,
+    isConnected,
     isOwner,
     refresh: getMinterData,
     sendMint,
     sendCollectProfits
-  } = useMinterContract(network);
-
-  const { connected } = useTonConnect();
+  } = useMinterContract();
   
   return (
     <div className="card"> 
@@ -28,10 +26,10 @@ export function MinterContractCard({ network }: { network: Network }) {
       />
       <CardItemWithButton
         title="Balance"
-        text={contractBalance ?? "null" + " TON"}
+        text={(contractBalance ?? "null") + " TON"}
         buttonText="Collect"
         buttonClick={sendCollectProfits}
-        showButton={connected && isOwner}
+        showButton={isConnected && isOwner}
       />
       <CardItemWithButton
         title=""
@@ -47,7 +45,7 @@ export function MinterContractCard({ network }: { network: Network }) {
           const targetPrice = parseFloat(targetPriceText);
           sendMint(targetPrice, value);
         }}
-        showButton={connected}
+        showButton={isConnected}
       />
     </div>
   );

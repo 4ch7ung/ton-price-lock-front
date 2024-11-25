@@ -10,6 +10,7 @@ export function useAsyncInitialize<T>(
     (async () => {
       setState(await func());
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   return state;

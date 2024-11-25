@@ -1,22 +1,19 @@
-import { Network } from '../utils/types';
 import { useLPContract } from '../hooks/useLPContract';
 import { fromNano } from '@ton/core';
-import { useTonConnect } from '../hooks/useTonConnect';
 import { CardHeader } from './card/CardHeader';
 import { CardItem } from './card/CardItem';
 import { CardItemWithButton } from './card/CardItemWithButton';
 
-export function LpContractCard({ network }: { network: Network }) {
+export function LpContractCard() {
   const {
     contractAddress: lpContractAddress,
     contractAddressFull: lpContractAddressFull,
     contractData: lpContractData,
     contractPrice: lpContractPrice,
+    isConnected,
     refresh: getPoolData,
     changeLPPrice
-  } = useLPContract(network);
-
-  const { connected } = useTonConnect(); 
+  } = useLPContract();
   
   return (
     <div className="card">
@@ -46,8 +43,8 @@ export function LpContractCard({ network }: { network: Network }) {
           changeLPPrice(price);
         }
       }}
-      showButton={connected}
+      showButton={isConnected}
     />
   </div>
   );
-};
+}

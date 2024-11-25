@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LPMockContract } from "../contracts/LPMockContract";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
-import { ADDRESSES } from "../addresses";
+import { ADDRESSES } from "../utils/addresses";
 import { shortenAddress } from "../utils/formattingUtils";
-import { Network } from "../utils/types";
 
 export type LPContractData = {
   reserve0: bigint,
@@ -21,9 +20,9 @@ export type LPContractData = {
   collected_token1_protocol_fee: bigint
 };
 
-export function useLPContract(network: Network = "testnet") {
-  const tonClient = useTonClient(network);
-  const { sender } = useTonConnect();
+export function useLPContract() {
+  const tonClient = useTonClient();
+  const { sender, connected } = useTonConnect();
 
   const [contractData, setContractData] = useState<null | LPContractData>();
 
@@ -37,16 +36,20 @@ export function useLPContract(network: Network = "testnet") {
     return tonClient.open(contract) as OpenedContract<LPMockContract>;
   }, [tonClient]);
 
-  async function getValue() {
+  const getValue = useCallback(async () => {
     if (!lpContract) return;
     setContractData(null);
-    const data = await lpContract.getPoolData();
+    const data = await lpContract.getPoolData().catch(e => { 
+      console.error('useLPContract: getPoolData error: ' + e);
+      getValue();
+      return null;
+    });
     setContractData(data);
-  }
-
-  useEffect(() => { 
-    getValue();
   }, [lpContract]);
+
+  useEffect(() => {
+    getValue();
+  }, [lpContract, getValue]);
 
   const contractPrice = Number(contractData?.reserve0 ?? 0) / (Number(contractData?.reserve1 ?? 1) / 1000);
 
@@ -55,6 +58,7 @@ export function useLPContract(network: Network = "testnet") {
     contractAddressFull: lpContract?.address.toString(),
     contractData: contractData,
     contractPrice: contractPrice,
+    isConnected: connected,
     refresh: async() => {
       getValue();
     },

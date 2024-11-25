@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PriceLockMinter } from "../contracts/PriceLockMinter";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, Cell, fromNano, OpenedContract, toNano } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
-import { ADDRESSES } from "../addresses";
-import { Network } from "../utils/types";
-
+import { ADDRESSES } from "../utils/addresses";
 export type MinterData = {
   royaltyParam: bigint;
   lpAddress: Address;
@@ -17,12 +15,11 @@ export type MinterData = {
   owner: Address | null;
 };
 
-export function useMinterContract(network: Network = "testnet") {
-  const tonClient = useTonClient(network);
-  const { sender } = useTonConnect();
+export function useMinterContract() {
+  const tonClient = useTonClient();
+  const { sender, connected } = useTonConnect();
 
   const [contractData, setContractData] = useState<null | MinterData>();
-
   const [balance, setBalance] = useState<null | string>(null);
 
   const minterContract = useAsyncInitialize(async () => {
@@ -35,7 +32,7 @@ export function useMinterContract(network: Network = "testnet") {
     return tonClient.open(contract) as OpenedContract<PriceLockMinter>;
   }, [tonClient]);
 
-  async function updateContractData() {
+  const updateContractData = useCallback(async () => {
     if (!minterContract) {
       return;
     }
@@ -55,17 +52,18 @@ export function useMinterContract(network: Network = "testnet") {
       owner: ownerAddress
     });
     setBalance(balance);
-  }
-
-  useEffect(() => { 
-    updateContractData();
   }, [minterContract]);
+
+  useEffect(() => {
+    updateContractData();
+  }, [minterContract, updateContractData]);
 
   return {
     contractAddress: shortenAddress(minterContract?.address.toString()),
     contractAddressFull: minterContract?.address.toString(),
     contractBalance: balance,
     contractData: contractData,
+    isConnected: connected,
     isOwner: sender?.address?.toString() == contractData?.owner?.toString(),
     sendMint: async(targetPrice: number, value: number) => {
       if (minterContract == null) {
