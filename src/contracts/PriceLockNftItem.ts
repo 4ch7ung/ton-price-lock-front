@@ -11,6 +11,11 @@ export class PriceLockNftItem implements Contract {
   //
   // Get methods
   //
+
+  async getIsActive(provider: ContractProvider) {
+    const state = await provider.getState();
+    return state.state.type == 'active';
+  }
   
   async getContractData(provider: ContractProvider) { 
     const { stack } = await provider.get('get_contract_data', []);

@@ -4,6 +4,7 @@ import { useTonConnect } from "../hooks/useTonConnect";
 import { ToncenterApi, NftItem } from "../services/ToncenterApi";
 import { NftItemContractCard } from "./NftItemContractCard";
 import { NetworkContext } from "../services/NetworkContext";
+import { sleep } from "../utils/controlUtils";
 
 export function NftListSection() {
   const network = useContext(NetworkContext);
@@ -22,7 +23,7 @@ export function NftListSection() {
       }
       const newNfts = await api.getNftItems(sender.address, ADDRESSES[network].collection_contract).catch(e => {
         console.error('NftListSection: getNftItems error: ' + e);
-        return null;
+        throw e;
       });
       setNfts(newNfts);
       if (newNfts) {
@@ -31,7 +32,7 @@ export function NftListSection() {
       }
     }
     fetchNfts();
-  }, [connected, network]);
+  }, [connected, network, sender.address]);
 
   return (
     <div>
@@ -40,9 +41,4 @@ export function NftListSection() {
       ))}
     </div>
   );
-}
-
-// Sleep function to pause execution for a given number of milliseconds
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }

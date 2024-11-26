@@ -6,6 +6,7 @@ import { Address, OpenedContract } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../utils/addresses";
 import { shortenAddress } from "../utils/formattingUtils";
+import { sleep } from "../utils/controlUtils";
 
 export type LPContractData = {
   reserve0: bigint,
@@ -41,7 +42,7 @@ export function useLPContract() {
     setContractData(null);
     const data = await lpContract.getPoolData().catch(e => { 
       console.error('useLPContract: getPoolData error: ' + e);
-      getValue();
+      sleep(5000).then(getValue);
       return null;
     });
     setContractData(data);

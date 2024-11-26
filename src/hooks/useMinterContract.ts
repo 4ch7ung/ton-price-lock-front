@@ -6,6 +6,7 @@ import { Address, Cell, fromNano, OpenedContract, toNano } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
 import { ADDRESSES } from "../utils/addresses";
+import { sleep } from "../utils/controlUtils";
 export type MinterData = {
   royaltyParam: bigint;
   lpAddress: Address;
@@ -39,10 +40,18 @@ export function useMinterContract() {
 
     setContractData(null);
     setBalance(null);
-    const data = await minterContract.getContractData();
+    const data = await minterContract.getContractData().catch(e => { 
+      console.error('useMinterContract: getContractData error: ' + e);
+      sleep(5000).then(updateContractData);
+      throw e;
+    });
     let ownerAddress = null;
     let balance = null;
-    const ownerAndBalance = await minterContract.getOwnerAndBalance();
+    const ownerAndBalance = await minterContract.getOwnerAndBalance().catch(e => { 
+      console.error('useMinterContract: getOwnerAndBalance error: ' + e);
+      sleep(5000).then(updateContractData);
+      throw e;
+    });
     if (ownerAndBalance) {
       ownerAddress = ownerAndBalance.owner;
       balance = fromNano(ownerAndBalance.balance);

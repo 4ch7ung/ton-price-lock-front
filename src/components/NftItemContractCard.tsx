@@ -11,9 +11,16 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
     contractBalance,
     contractData,
     isConnected,
+    isActive,
     sendDeposit,
     sendWithdraw,
   } = useNftContract(nftAddress);
+
+  if (!isActive) {
+    return (
+      <></>
+    );
+  }
   
   return (
     <div className="card">

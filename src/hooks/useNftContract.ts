@@ -5,6 +5,7 @@ import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, fromNano, OpenedContract, toNano } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
+import { sleep } from "../utils/controlUtils";
 
 export type LockContractData = {
   initialized: boolean,
@@ -22,9 +23,10 @@ export type LockContractData = {
 export function useNftContract(address: string) {
   const tonClient = useTonClient();
   const { sender, connected } = useTonConnect();
-
+  
   const [contractData, setContractData] = useState<null | LockContractData>();
   const [balance, setBalance] = useState<null | string>(null);
+  const [isActive, setIsActive] = useState<boolean>(true);
 
   const lockContract = useAsyncInitialize(async () => {
     if (!tonClient) {
@@ -37,21 +39,34 @@ export function useNftContract(address: string) {
   }, [tonClient]);
 
   const getValue = useCallback(async () => {
-    if (!lockContract) {
+    if (!lockContract || !isActive) {
       return;
     }
 
     setContractData(null);
     setBalance(null);
-    const data = await lockContract.getContractData();
-    const { value: balance } = await lockContract.getBalance();
+    const isActiveGet = await lockContract.getIsActive();
+    if (!isActiveGet) {
+      setIsActive(false);
+      return;
+    }
+    const data = await lockContract.getContractData().catch(e => {
+      console.error('useNftContract: getContractData error: ' + e);
+      sleep(5000).then(getValue);
+      throw e;
+    });
+    const { value: balance } = await lockContract.getBalance().catch(e => {
+      console.error('useNftContract: getBalance error: ' + e);
+      sleep(5000).then(getValue);
+      throw e;
+    });
     setContractData(data);
     setBalance(fromNano(balance));
-  }, [lockContract]);
+  }, [lockContract, isActive]);
 
   useEffect(() => {
     getValue();
-  }, [lockContract, getValue]);
+  }, [lockContract, getValue, isActive]);
 
   return {
     contractAddress: shortenAddress(lockContract?.address.toString()),
@@ -59,6 +74,7 @@ export function useNftContract(address: string) {
     contractBalance: balance,
     contractData: contractData,
     isConnected: connected,
+    isActive: isActive,
     sendDeposit: async(value: number) => {
       return lockContract?.sendDepositMessage(sender, toNano(value));
     },
