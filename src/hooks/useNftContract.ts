@@ -17,7 +17,8 @@ export type LockContractData = {
     contractAddress: Address,
     isUsdtFirst: boolean
   },
-  content?: string
+  content?: string,
+  contentRawBase64?: string
 };
 
 export function useNftContract(address: string) {
@@ -60,7 +61,10 @@ export function useNftContract(address: string) {
       sleep(5000).then(getValue);
       throw e;
     });
-    setContractData(data);
+    setContractData({
+      ...data,
+      contentRawBase64: data.contentRaw?.toBoc().toString("base64")
+    });
     setBalance(fromNano(balance));
   }, [lockContract, isActive]);
 

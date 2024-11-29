@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { PriceLockNftCollection } from "../contracts/PriceLockNftCollection";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { Address, OpenedContract } from "@ton/core";
+import { Address, Cell, OpenedContract } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../utils/addresses";
 import { shortenAddress } from "../utils/formattingUtils";
+import { NetworkContext } from "../services/NetworkContext";
 
 export type CollectionData = {
   nextItemId: number;
@@ -15,6 +16,7 @@ export type CollectionData = {
 };
 
 export function useCollectionContract() {
+  const network = useContext(NetworkContext);
   const tonClient = useTonClient();
   const { sender, connected } = useTonConnect();
 
@@ -25,7 +27,7 @@ export function useCollectionContract() {
       return;
     }
 
-    const address = Address.parse(ADDRESSES.testnet.collection_contract);
+    const address = Address.parse(ADDRESSES[network].collection_contract);
     const contract = new PriceLockNftCollection(address);
     return tonClient.open(contract) as OpenedContract<PriceLockNftCollection>;
   }, [tonClient]);
@@ -45,10 +47,6 @@ export function useCollectionContract() {
     });
   }, [collectionContract]);
 
-  useEffect(() => {
-    updateContractData();
-  }, [collectionContract, updateContractData]);
-
   return {
     contractAddress: shortenAddress(collectionContract?.address.toString()),
     contractAddressFull: collectionContract?.address.toString(),
@@ -61,6 +59,10 @@ export function useCollectionContract() {
     sendChangeMinter: async(newMinter: string) => {
       const newMinterAddress = Address.parse(newMinter);
       return collectionContract?.sendChangeMinter(sender, newMinterAddress);
+    },
+    getFullNftContent: async(index: number, nftContentRawBase64: string) => {
+      const nftContentRaw = Cell.fromBase64(nftContentRawBase64);
+      return collectionContract?.getNftContent(index, nftContentRaw);
     },
     refresh: async() => {
       updateContractData();
