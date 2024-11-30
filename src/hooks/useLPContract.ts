@@ -7,6 +7,7 @@ import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../utils/addresses";
 import { shortenAddress } from "../utils/formattingUtils";
 import { sleep } from "../utils/controlUtils";
+import { useSharedState } from "../context/SharedStateContext";
 
 export type LPContractData = {
   reserve0: bigint,
@@ -24,6 +25,7 @@ export type LPContractData = {
 export function useLPContract() {
   const tonClient = useTonClient();
   const { sender, connected } = useTonConnect();
+  const { value: sharedState, setValue: setSharedState } = useSharedState();
 
   const [contractData, setContractData] = useState<null | LPContractData>();
 
@@ -54,6 +56,12 @@ export function useLPContract() {
 
   const contractPrice = Number(contractData?.reserve0 ?? 0) / (Number(contractData?.reserve1 ?? 1) / 1000);
 
+  useEffect(() => {
+    setSharedState({ ...sharedState, lpPrice: contractPrice });
+    // we change only lpPrice, so we don't need to update on sharedState change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contractPrice]);
+
   return {
     contractAddress: shortenAddress(lpContract?.address.toString()),
     contractAddressFull: lpContract?.address.toString(),
@@ -67,6 +75,7 @@ export function useLPContract() {
       if (lpContract == null || contractData == null) return;
       const reserve0 = contractData.reserve0;
       const reserve1 = BigInt(Math.round(Number(reserve0) / price * 1000));
+      console.log('changeLPPrice ' + price + ', reserve0 ' + reserve0 + ', reserve1 ' + reserve1);
       return lpContract?.sendSetReservesMessage(sender, reserve0, reserve1);
     }
   }

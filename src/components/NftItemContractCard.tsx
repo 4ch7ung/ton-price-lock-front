@@ -4,8 +4,11 @@ import { useNftContract } from "../hooks/useNftContract";
 import { CardHeader } from "./card/CardHeader";
 import { CardItem } from "./card/CardItem";
 import { CardItemWithButton } from "./card/CardItemWithButton";
+import { useSharedState } from "../context/SharedStateContext";
 
 export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
+
+  const { value: sharedState } = useSharedState();
 
   const {
     contractAddress,
@@ -21,17 +24,21 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
   const {
     getFullNftContent
   } = useCollectionContract();
-
+  
   const [contentFull, setContentFull] = useState<string | undefined>(undefined);
 
+  const nftIndex = contractData?.index;
+  const contentRawBase64 = contractData?.contentRawBase64;
+
   useEffect(() => {
+    console.log('NftItemContractCard: updateFullContent: isActive=' + isActive + ' nftIndex=' + nftIndex + ' contentRawBase64=' + contentRawBase64);
     async function updateFullContent() {
-      if(!isActive || !contractData || !contractData.contentRawBase64) return;
-      const newContentFull = await getFullNftContent(contractData.index, contractData.contentRawBase64);
+      if(!isActive || !nftIndex || !contentRawBase64) return;
+      const newContentFull = await getFullNftContent(nftIndex, contentRawBase64);
       setContentFull(newContentFull);
     }
     updateFullContent();
-  }, [isActive, contractData, getFullNftContent]);
+  }, [isActive, nftIndex, contentRawBase64, getFullNftContent]);
   
   if (!isActive) {
     return (
@@ -56,6 +63,10 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
       </div>
     );
   }
+
+  const isAvailableToWithdraw = (contractData.targetPrice !== undefined) 
+                              && (sharedState.lpPrice !== undefined) 
+                              && (sharedState.lpPrice >= contractData.targetPrice);
 
   return (
     <div className="card">
@@ -83,7 +94,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
         text={"1 TON = " + (contractData?.targetPrice?.toFixed(2) ?? "null") + " USDT"} 
         buttonText="Withdraw" 
         buttonClick={sendWithdraw}
-        showButton={isConnected}
+        showButton={isConnected && isAvailableToWithdraw}
       />
     </div>
   );

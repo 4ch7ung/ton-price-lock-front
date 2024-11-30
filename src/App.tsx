@@ -5,7 +5,8 @@ import { LpContractCard } from './components/LpContractCard';
 import { Network } from './utils/types';
 import { MinterContractCard } from './components/MinterContractCard';
 import { NftListSection } from './components/NftListSection';
-import { NetworkContext } from './services/NetworkContext';
+import { NetworkContext } from './context/NetworkContext';
+import { SharedStateProvider } from './context/SharedStateContext';
 
 function App() {
   const isInTWA = WebApp.platform != "unknown";
@@ -23,17 +24,19 @@ function App() {
       }
       <TonConnectButton className="ton-connect-button" />
     </header>
-    <div className="main">
-      <NetworkContext.Provider value={network}>
-        <div className="main-section">
-          <MinterContractCard/>
-          <LpContractCard/>
-        </div>
-        <div className="main-section">
-          <NftListSection/>
-        </div>
-      </NetworkContext.Provider>
-    </div>
+    <SharedStateProvider>
+      <div className="main">
+        <NetworkContext.Provider value={network}>
+          <div className="main-section">
+            <MinterContractCard/>
+            <LpContractCard/>
+          </div>
+          <div className="main-section">
+            <NftListSection/>
+          </div>
+        </NetworkContext.Provider>
+      </div>
+    </SharedStateProvider>
   </div>;
 }
 

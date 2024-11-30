@@ -7,6 +7,7 @@ import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
 import { ADDRESSES } from "../utils/addresses";
 import { sleep } from "../utils/controlUtils";
+
 export type MinterData = {
   royaltyParam: bigint;
   lpAddress: Address;

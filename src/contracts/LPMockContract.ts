@@ -8,7 +8,6 @@ import {
   beginCell, 
   toNano 
 } from "@ton/core";
-import { randomBytes } from "crypto";
 
 const Opcode = {
   setReserves: 0xf098b538,
@@ -28,15 +27,17 @@ export class LPMockContract implements Contract {
     reserve0: bigint,
     reserve1: bigint
   ) {
+    const msgBody = beginCell()
+      .storeUint(Opcode.setReserves, 32)
+      .storeUint(0, 64)
+      .storeCoins(reserve0)
+      .storeCoins(reserve1)
+      .endCell();
+    console.log('msgBody: ', msgBody.toBoc().toString('base64'));
     await provider.internal(sender, {
       value: toNano(0.01),
       sendMode: SendMode.PAY_GAS_SEPARATELY,
-      body: beginCell()
-        .storeUint(Opcode.setReserves, 32)
-        .storeUint(randomBytes(8).readBigUInt64LE(), 64) // query_id
-        .storeCoins(reserve0)
-        .storeCoins(reserve1)
-        .endCell()
+      body: msgBody
     });
   }
   

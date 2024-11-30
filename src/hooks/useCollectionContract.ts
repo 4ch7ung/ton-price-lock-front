@@ -6,7 +6,7 @@ import { Address, Cell, OpenedContract } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { ADDRESSES } from "../utils/addresses";
 import { shortenAddress } from "../utils/formattingUtils";
-import { NetworkContext } from "../services/NetworkContext";
+import { NetworkContext } from "../context/NetworkContext";
 
 export type CollectionData = {
   nextItemId: number;
@@ -47,6 +47,15 @@ export function useCollectionContract() {
     });
   }, [collectionContract]);
 
+  const getFullNftContent = useCallback(async (index: number, nftContentRawBase64: string) => {
+    if (!collectionContract) {
+      return;
+    }
+
+    const nftContentRaw = Cell.fromBase64(nftContentRawBase64);
+    return collectionContract.getNftContent(index, nftContentRaw);
+  }, [collectionContract]);
+
   return {
     contractAddress: shortenAddress(collectionContract?.address.toString()),
     contractAddressFull: collectionContract?.address.toString(),
@@ -60,10 +69,7 @@ export function useCollectionContract() {
       const newMinterAddress = Address.parse(newMinter);
       return collectionContract?.sendChangeMinter(sender, newMinterAddress);
     },
-    getFullNftContent: async(index: number, nftContentRawBase64: string) => {
-      const nftContentRaw = Cell.fromBase64(nftContentRawBase64);
-      return collectionContract?.getNftContent(index, nftContentRaw);
-    },
+    getFullNftContent: getFullNftContent,
     refresh: async() => {
       updateContractData();
     }

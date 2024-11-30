@@ -40,6 +40,7 @@ export function useNftContract(address: string) {
   }, [tonClient]);
 
   const getValue = useCallback(async () => {
+    console.log('useNftContract: getValue');
     if (!lockContract || !isActive) {
       return;
     }
