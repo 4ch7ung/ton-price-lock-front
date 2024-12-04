@@ -12,7 +12,7 @@ function App() {
   const isInTWA = WebApp.platform != "unknown";
   const urlParams = new URLSearchParams(window.location.search);
   const networkParam = urlParams.get('network');
-  const isTestnet = networkParam === 'testnet' || !networkParam;
+  const isTestnet = networkParam === 'testnet';
   const network: Network = isTestnet ? "testnet" : "mainnet";
 
   if (isInTWA && !WebApp.isExpanded) WebApp.expand();

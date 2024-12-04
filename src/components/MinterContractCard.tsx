@@ -38,7 +38,7 @@ export function MinterContractCard() {
         buttonClick={() => {
           const valueText = prompt("Enter amount to deposit", "0");
           if (valueText === null || valueText == "") return;
-          const targetPriceText = prompt("Enter targer price", "0.00");
+          const targetPriceText = prompt("Enter target price", "0.00");
           if (targetPriceText === null || targetPriceText == "") return;
 
           const value = parseFloat(valueText);
