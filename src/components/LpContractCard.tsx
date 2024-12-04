@@ -10,8 +10,8 @@ export function LpContractCard() {
     contractAddressFull: lpContractAddressFull,
     contractData: lpContractData,
     contractPrice: lpContractPrice,
-    isConnected,
     refresh: getPoolData,
+    canChangeLPPrice,
     changeLPPrice
   } = useLPContract();
   
@@ -43,7 +43,7 @@ export function LpContractCard() {
           changeLPPrice(price);
         }
       }}
-      showButton={isConnected}
+      showButton={canChangeLPPrice}
     />
   </div>
   );

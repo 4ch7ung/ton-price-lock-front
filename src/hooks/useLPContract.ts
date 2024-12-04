@@ -69,10 +69,10 @@ export function useLPContract() {
     contractAddressFull: lpContract?.address.toString(),
     contractData: contractData,
     contractPrice: contractPrice,
-    isConnected: connected,
     refresh: async() => {
       getValue();
     },
+    canChangeLPPrice: network === 'testnet' && connected,
     changeLPPrice: async(price: number) => {
       if (lpContract == null || contractData == null) return;
       const reserve0 = contractData.reserve0;

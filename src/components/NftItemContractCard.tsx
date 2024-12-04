@@ -31,9 +31,10 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
   const contentRawBase64 = contractData?.contentRawBase64;
 
   useEffect(() => {
-    console.log('NftItemContractCard: updateFullContent: isActive=' + isActive + ' nftIndex=' + nftIndex + ' contentRawBase64=' + contentRawBase64);
     async function updateFullContent() {
-      if(!isActive || !nftIndex || !contentRawBase64) return;
+      if(!isActive || (nftIndex === undefined) || !contentRawBase64) {
+        return;
+      }
       const newContentFull = await getFullNftContent(nftIndex, contentRawBase64);
       setContentFull(newContentFull);
     }
