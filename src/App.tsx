@@ -18,13 +18,13 @@ function App() {
   if (isInTWA && !WebApp.isExpanded) WebApp.expand();
   
   return <div id="content">
+    <SharedStateProvider>
     <header className="header">
       {isTestnet &&
         <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET{isInTWA ? " - " + WebApp.platform : ""}</b>
       }
       <TonConnectButton className="ton-connect-button" />
     </header>
-    <SharedStateProvider>
       <div className="main">
         <NetworkContext.Provider value={network}>
           <div className="main-section">
