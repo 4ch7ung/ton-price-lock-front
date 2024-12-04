@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { LPMockContract } from "../contracts/LPMockContract";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
@@ -8,6 +8,7 @@ import { ADDRESSES } from "../utils/addresses";
 import { shortenAddress } from "../utils/formattingUtils";
 import { sleep } from "../utils/controlUtils";
 import { useSharedState } from "../context/SharedStateContext";
+import { NetworkContext } from "../context/NetworkContext";
 
 export type LPContractData = {
   reserve0: bigint,
@@ -23,6 +24,7 @@ export type LPContractData = {
 };
 
 export function useLPContract() {
+  const network = useContext(NetworkContext);
   const tonClient = useTonClient();
   const { sender, connected } = useTonConnect();
   const { value: sharedState, setValue: setSharedState } = useSharedState();
@@ -34,7 +36,7 @@ export function useLPContract() {
       return;
     }
 
-    const address = Address.parse(ADDRESSES.testnet.lp_contract);
+    const address = Address.parse(ADDRESSES[network].lp_contract);
     const contract = new LPMockContract(address);
     return tonClient.open(contract) as OpenedContract<LPMockContract>;
   }, [tonClient]);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { PriceLockMinter } from "../contracts/PriceLockMinter";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
@@ -7,6 +7,7 @@ import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
 import { ADDRESSES } from "../utils/addresses";
 import { sleep } from "../utils/controlUtils";
+import { NetworkContext } from "../context/NetworkContext";
 
 export type MinterData = {
   royaltyParam: bigint;
@@ -18,6 +19,7 @@ export type MinterData = {
 };
 
 export function useMinterContract() {
+  const network = useContext(NetworkContext);
   const tonClient = useTonClient();
   const { sender, connected } = useTonConnect();
 
@@ -29,7 +31,7 @@ export function useMinterContract() {
       return;
     }
 
-    const address = Address.parse(ADDRESSES.testnet.minter_contract);
+    const address = Address.parse(ADDRESSES[network].minter_contract);
     const contract = new PriceLockMinter(address);
     return tonClient.open(contract) as OpenedContract<PriceLockMinter>;
   }, [tonClient]);
