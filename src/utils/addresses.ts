@@ -8,11 +8,11 @@ export const ADDRESSES = {
     "collection_contract_url": "https://testnet.tonscan.org/address/kQC5IR-GtGgJXmhj7VtAs8VLCEFQzHP_ANl3YRbU0af6p_7k",
   },
   "mainnet": {
-    "lp_contract": "",
-    "lp_contract_url": "",
-    "minter_contract": "",
-    "minter_contract_url": "",
-    "collection_contract": "",
-    "collection_contract_url": "",
+    "lp_contract": "EQD8TJ8xEWB1SpnRE4d89YO3jl0W0EiBnNS4IBaHaUmdfizE",
+    "lp_contract_url": "https://tonviewer.com/EQD8TJ8xEWB1SpnRE4d89YO3jl0W0EiBnNS4IBaHaUmdfizE",
+    "minter_contract": "EQBa5jr86osI_NRgJTG5GUtxid6_XUAyq1fDuVq3ZqWH8l_K",
+    "minter_contract_url": "https://tonviewer.com/EQBa5jr86osI_NRgJTG5GUtxid6_XUAyq1fDuVq3ZqWH8l_K",
+    "collection_contract": "EQAV-PKQCnGMiF2AGU2VGyyW1WMtAbSfakZV6vCmQ-jg2D_A",
+    "collection_contract_url": "https://tonviewer.com/EQAV-PKQCnGMiF2AGU2VGyyW1WMtAbSfakZV6vCmQ-jg2D_A",
   },
 };
