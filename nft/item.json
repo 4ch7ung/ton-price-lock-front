@@ -12,7 +12,7 @@
   "buttons": [
     {
       "label": "Interact",
-      "uri": "https://4ch7ung.github.io/ton-price-lock-front/"
+      "uri": "https://4ch7ung.github.io/ton-price-lock-front/?network=mainnet"
     }
   ]
 }
