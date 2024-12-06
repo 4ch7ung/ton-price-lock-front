@@ -7,6 +7,7 @@ import { MinterContractCard } from './components/MinterContractCard';
 import { NftListSection } from './components/NftListSection';
 import { NetworkContext } from './context/NetworkContext';
 import { SharedStateProvider } from './context/SharedStateContext';
+import { ConnectedBalanceView } from './components/ConnectedBalanceView';
 
 function App() {
   const isInTWA = WebApp.platform != "unknown";
@@ -19,12 +20,15 @@ function App() {
   
   return <div id="content">
     <SharedStateProvider>
-    <header className="header">
-      {isTestnet &&
-        <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET{isInTWA ? " - " + WebApp.platform : ""}</b>
-      }
-      <TonConnectButton className="ton-connect-button" />
-    </header>
+      <header className="header">
+        {isTestnet &&
+          <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET{isInTWA ? " - " + WebApp.platform : ""}</b>
+        }
+        <NetworkContext.Provider value={network}>
+          <ConnectedBalanceView />
+        </NetworkContext.Provider>
+        <TonConnectButton className="ton-connect-button" />
+      </header>
       <div className="main">
         <NetworkContext.Provider value={network}>
           <div className="main-section">
