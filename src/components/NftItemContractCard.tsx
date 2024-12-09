@@ -5,6 +5,7 @@ import { CardHeader } from "./card/CardHeader";
 import { CardItem } from "./card/CardItem";
 import { CardItemWithButton } from "./card/CardItemWithButton";
 import { useSharedState } from "../context/SharedStateContext";
+import { InputPopup } from "./popup/InputPopup";
 
 export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
 
@@ -102,22 +103,9 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
         buttonClick={() => { if (isInputVisible) { setInputVisible(false) } else { setInputVisible(true) } }}
         showButton={isConnected}
       />
-      {isInputVisible && (
-        <div style={{ marginTop: "10px" }}>
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Enter amount to deposit"
-            style={{ marginRight: "10px" }}
-          />
-          <button onClick={handleDepositClick}>Submit</button>
-          <button onClick={() => setInputVisible(false)}>Cancel</button>
-        </div>
-      )}
       <CardItem
         title="Target USDT value"
-        text={(contractBalance !== null && sharedState.lpPrice !== undefined) ? (Number(contractBalance) * sharedState.lpPrice).toFixed(2) + " USDT" : "null"}
+        text={(contractBalance !== null && contractData.targetPrice !== undefined) ? (Number(contractBalance) * contractData.targetPrice).toFixed(2) + " USDT" : "null"}
       />
       <CardItemWithButton 
         title="Target price" 
@@ -125,6 +113,16 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
         buttonText="Claim" 
         buttonClick={sendWithdraw}
         showButton={isConnected && isAvailableToWithdraw}
+      />
+      <InputPopup
+        isVisible={isInputVisible}
+        params={{
+          title: "Deposit",
+          placeholder: "Enter amount to deposit",
+          initialValue: "",
+          onConfirm: () => { handleDepositClick(); setInputVisible(false); },
+          onCancel: () => setInputVisible(false)
+        }}
       />
     </div>
   );
