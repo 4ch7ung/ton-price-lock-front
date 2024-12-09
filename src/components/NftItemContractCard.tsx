@@ -32,7 +32,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
 
   useEffect(() => {
     async function updateFullContent() {
-      if(!isActive || (nftIndex === undefined) || !contentRawBase64) {
+      if(!isActive || (nftIndex === undefined) || !contentRawBase64 || (contentFull !== undefined)) {
         return;
       }
       const newContentFull = await getFullNftContent(nftIndex, contentRawBase64);
@@ -40,6 +40,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
     }
     updateFullContent();
   // disabled
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [/* isActive, nftIndex, contentRawBase64, getFullNftContent */]);
 
   const [isInputVisible, setInputVisible] = useState(false);
