@@ -4,37 +4,102 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
 .popup-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  position: relative;
-  text-align: center;
+  background-color: #242e38;
+  color: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 .popup-title {
-  margin: 0 0 1rem;
+  margin: 0 0 1.5rem;
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff;
 }
 
 .popup-input {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   width: 100%;
+  background-color: #2e3a47;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.popup-input::placeholder {
+  color: #8c9aa9;
+}
+
+.popup-button-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }
 
 .popup-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: #fff;
+  background-color: #121214;
+  border: 1px solid transparent;
+  border-radius: 8px;
   cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.popup-button:hover {
+  border-color: #646cff;
+}
+
+.popup-button:focus {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Light mode adjustments */
+@media (prefers-color-scheme: light) {
+  .popup-container {
+    background-color: #ffffff;
+    color: #213547;
+  }
+
+  .popup-title {
+    color: #213547;
+  }
+
+  .popup-input {
+    background-color: #f9f9f9;
+    color: #213547;
+  }
+
+  .popup-input::placeholder {
+    color: #8c9aa9;
+  }
+
+  .popup-button {
+    background-color: #f9f9f9;
+    color: #213547;
+  }
+
+  .popup-button:hover {
+    color: #000;
+    border-color: #9AD5F5;
+  }
 }

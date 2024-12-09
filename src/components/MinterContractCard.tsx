@@ -1,9 +1,12 @@
+import { useInputPopup } from '../context/InputPopupContext';
 import { useMinterContract } from '../hooks/useMinterContract';
 import { CardHeader } from './card/CardHeader';
 import { CardItem } from './card/CardItem';
 import { CardItemWithButton } from './card/CardItemWithButton';
 
 export function MinterContractCard() {
+
+  const popup = useInputPopup();
 
   const {
     contractAddress,
@@ -15,6 +18,34 @@ export function MinterContractCard() {
     sendMint,
     sendCollectProfits
   } = useMinterContract();
+
+  const handleMintConfirm = (targetPrice: string, value?: string) => {
+    if (targetPrice.trim() === "" || value?.trim() === "") return;
+    const targetPriceNumber = Number(targetPrice);
+    const valueNumber = Number(value);
+    if (isNaN(targetPriceNumber) || isNaN(valueNumber)) {
+      alert("Please enter a valid number");
+      return;
+    }
+    sendMint(targetPriceNumber, valueNumber);
+    popup.closePopup();
+  }
+
+  const handleMintClick = () => {
+    if (popup.isOpen) {
+      popup.closePopup();
+      return;
+    }
+    
+    popup.openPopup({
+      title: 'Create Lock',
+      placeholder: 'Enter target price',
+      secondPlaceholder: 'Enter deposit amount',
+      confirmButtonText: 'Create',
+      onConfirm: handleMintConfirm,
+      onCancel: popup.closePopup
+    });
+  }
   
   return (
     <div className="card"> 
@@ -34,17 +65,8 @@ export function MinterContractCard() {
       <CardItemWithButton
         title=""
         text=""
-        buttonText="Deposit"
-        buttonClick={() => {
-          const valueText = prompt("Enter amount to deposit", "0");
-          if (valueText === null || valueText == "") return;
-          const targetPriceText = prompt("Enter target price", "0.00");
-          if (targetPriceText === null || targetPriceText == "") return;
-
-          const value = parseFloat(valueText);
-          const targetPrice = parseFloat(targetPriceText);
-          sendMint(targetPrice, value);
-        }}
+        buttonText="Create Lock"
+        buttonClick={handleMintClick}
         showButton={isConnected}
       />
     </div>

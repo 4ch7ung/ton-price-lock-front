@@ -8,6 +8,7 @@ import { NftListSection } from './components/NftListSection';
 import { NetworkContext } from './context/NetworkContext';
 import { SharedStateProvider } from './context/SharedStateContext';
 import { ConnectedBalanceView } from './components/ConnectedBalanceView';
+import { InputPopupProvider } from './context/InputPopupContext';
 
 function App() {
   const isInTWA = WebApp.platform != "unknown";
@@ -20,6 +21,7 @@ function App() {
   
   return <div id="content">
     <SharedStateProvider>
+    <InputPopupProvider>
       <header className="header">
         {isTestnet &&
           <b style={{marginLeft: 'auto', color: '#f00'}}>TESTNET{isInTWA ? " - " + WebApp.platform : ""}</b>
@@ -40,6 +42,7 @@ function App() {
           </div>
         </NetworkContext.Provider>
       </div>
+    </InputPopupProvider>
     </SharedStateProvider>
   </div>;
 }

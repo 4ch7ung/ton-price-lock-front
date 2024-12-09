@@ -5,10 +5,11 @@ import { CardHeader } from "./card/CardHeader";
 import { CardItem } from "./card/CardItem";
 import { CardItemWithButton } from "./card/CardItemWithButton";
 import { useSharedState } from "../context/SharedStateContext";
-import { InputPopup } from "./popup/InputPopup";
+import { useInputPopup } from "../context/InputPopupContext";
 
 export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
 
+  const popup = useInputPopup();
   const { value: sharedState } = useSharedState();
 
   const {
@@ -44,10 +45,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [/* isActive, nftIndex, contentRawBase64, getFullNftContent */]);
 
-  const [isInputVisible, setInputVisible] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-
-  const handleDepositClick = () => {
+  const handleDepositConfirm = (inputValue: string) => {
     if (inputValue.trim() === "") return;
     const deposit = Number(inputValue);
     if (isNaN(deposit)) {
@@ -55,11 +53,24 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
       return;
     }
     sendDeposit(deposit);
-    setInputValue("");
-    setInputVisible(false);
+    popup.closePopup();
   };
 
-  
+  const handleDepositClick = () => {
+    if (popup.isOpen) {
+      popup.closePopup();
+      return;
+    }
+    
+    popup.openPopup({
+      title: "Deposit",
+      placeholder: "Enter amount to deposit",
+      confirmButtonText: "Deposit",
+      onConfirm: handleDepositConfirm,
+      onCancel: popup.closePopup
+    });
+  };
+
   if (!isActive) {
     return (
       <></>
@@ -100,7 +111,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
         title="Value"
         text={contractBalance ?? "null"}
         buttonText="Deposit"
-        buttonClick={() => { if (isInputVisible) { setInputVisible(false) } else { setInputVisible(true) } }}
+        buttonClick={handleDepositClick}
         showButton={isConnected}
       />
       <CardItem
@@ -113,16 +124,6 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
         buttonText="Claim" 
         buttonClick={sendWithdraw}
         showButton={isConnected && isAvailableToWithdraw}
-      />
-      <InputPopup
-        isVisible={isInputVisible}
-        params={{
-          title: "Deposit",
-          placeholder: "Enter amount to deposit",
-          initialValue: "",
-          onConfirm: () => { handleDepositClick(); setInputVisible(false); },
-          onCancel: () => setInputVisible(false)
-        }}
       />
     </div>
   );
