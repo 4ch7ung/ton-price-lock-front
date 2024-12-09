@@ -39,7 +39,24 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
       setContentFull(newContentFull);
     }
     updateFullContent();
-  }, [isActive, nftIndex, contentRawBase64, getFullNftContent]);
+  // disabled
+  }, [/* isActive, nftIndex, contentRawBase64, getFullNftContent */]);
+
+  const [isInputVisible, setInputVisible] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleDepositClick = () => {
+    if (inputValue.trim() === "") return;
+    const deposit = Number(inputValue);
+    if (isNaN(deposit)) {
+      alert("Please enter a valid number");
+      return;
+    }
+    sendDeposit(deposit);
+    setInputValue("");
+    setInputVisible(false);
+  };
+
   
   if (!isActive) {
     return (
@@ -77,23 +94,34 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
         text={contractAddress} 
         copyButtonClick={() => navigator.clipboard.writeText(contractAddressFull ?? "") } 
       />
-      <CardItemWithButton 
-        title="Balance" 
-        text={contractBalance ?? "null"} 
-        buttonText="Deposit" 
-        buttonClick={() => {
-          const valueText = prompt("Enter amount to deposit", "0");
-          if (valueText === null || valueText == "") return;
-          const deposit = Number(valueText);
-          sendDeposit(deposit);
-        }} 
-        showButton={isConnected} 
+      <CardItemWithButton
+        title="Value"
+        text={contractBalance ?? "null"}
+        buttonText="Deposit"
+        buttonClick={() => { if (isInputVisible) { setInputVisible(false) } else { setInputVisible(true) } }}
+        showButton={isConnected}
       />
-      <CardItem title="Content" text={contentFull ?? "null"} />
+      {isInputVisible && (
+        <div style={{ marginTop: "10px" }}>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Enter amount to deposit"
+            style={{ marginRight: "10px" }}
+          />
+          <button onClick={handleDepositClick}>Submit</button>
+          <button onClick={() => setInputVisible(false)}>Cancel</button>
+        </div>
+      )}
+      <CardItem
+        title="Target USDT value"
+        text={(contractBalance !== null && sharedState.lpPrice !== undefined) ? (Number(contractBalance) * sharedState.lpPrice).toFixed(2) + " USDT" : "null"}
+      />
       <CardItemWithButton 
         title="Target price" 
         text={"1 TON = " + (contractData?.targetPrice?.toFixed(2) ?? "null") + " USDT"} 
-        buttonText="Withdraw" 
+        buttonText="Claim" 
         buttonClick={sendWithdraw}
         showButton={isConnected && isAvailableToWithdraw}
       />
