@@ -1,6 +1,5 @@
 #root {
   margin: 0 auto;
-  padding: 16px;
   text-align: left;
   color: #fff;
 }
@@ -46,7 +45,7 @@
 }
 
 .big-card-button {
-  padding: 8px;
+  padding: 8px 16px;
   margin: 2em;
   font-size: 22px;
   font-weight: 500;
@@ -158,6 +157,21 @@ button.card-item-button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.footer {
+  background-color: #242e38; /* Match your dark theme */
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #2e3a47; /* Optional: add a top border for separation */
+}
+
+.footer .card {
+  width: 100%; /* Full width for small screens */
+  max-width: 768px; /* Optional: set a max-width */
+  text-align: center; /* Center the content inside the card */
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -173,13 +187,8 @@ button.card-item-button:focus-visible {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+body {
+  margin: 0;
 }
 
 @media screen and (min-width: 768px) {

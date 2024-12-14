@@ -31,17 +31,21 @@ function App() {
         </NetworkContext.Provider>
         <TonConnectButton className="ton-connect-button" />
       </header>
-      <div className="main">
+      <main className="main">
         <NetworkContext.Provider value={network}>
           <div className="main-section">
             <MinterContractCard/>
-            <LpContractCard/>
           </div>
           <div className="main-section">
             <NftListSection/>
           </div>
         </NetworkContext.Provider>
-      </div>
+      </main>
+      <footer className="footer">
+        <NetworkContext.Provider value={network}>
+          <LpContractCard />
+        </NetworkContext.Provider>
+      </footer>
     </InputPopupProvider>
     </SharedStateProvider>
   </div>;

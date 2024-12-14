@@ -1,5 +1,4 @@
 import { useLPContract } from '../hooks/useLPContract';
-import { fromNano } from '@ton/core';
 import { CardHeader } from './card/CardHeader';
 import { CardItem } from './card/CardItem';
 import { CardItemWithButton } from './card/CardItemWithButton';
@@ -12,7 +11,6 @@ export function LpContractCard() {
   const {
     contractAddress: lpContractAddress,
     contractAddressFull: lpContractAddressFull,
-    contractData: lpContractData,
     contractPrice: lpContractPrice,
     refresh: getPoolData,
     canChangeLPPrice,
@@ -52,14 +50,6 @@ export function LpContractCard() {
       title="Address"
       text={lpContractAddress}
       copyButtonClick={() => navigator.clipboard.writeText(lpContractAddressFull ?? "")}
-    />
-    <CardItem
-      title="USDT Reserve"
-      text={fromNano((lpContractData?.reserve0 ?? BigInt(0)) * BigInt(1000)) + " USDT"}
-    />
-    <CardItem
-      title="TON Reserve"
-      text={fromNano(lpContractData?.reserve1 ?? BigInt(0)) + " TON"}
     />
     <CardItemWithButton
       title="LP price"
