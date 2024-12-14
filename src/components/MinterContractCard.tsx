@@ -54,7 +54,7 @@ export function MinterContractCard() {
     );
   }
 
-  if (isConnected && isOwner) {
+  if (isConnected && !isOwner) {
     return (
       <BigCardButton
           title="Create Lock"
