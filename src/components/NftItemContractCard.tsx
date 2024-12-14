@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { useCollectionContract } from "../hooks/useCollectionContract";
 import { useNftContract } from "../hooks/useNftContract";
 import { CardHeader } from "./card/CardHeader";
 import { CardItem } from "./card/CardItem";
@@ -22,28 +20,6 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
     sendDeposit,
     sendWithdraw,
   } = useNftContract(nftAddress);
-
-  const {
-    getFullNftContent
-  } = useCollectionContract();
-  
-  const [contentFull, setContentFull] = useState<string | undefined>(undefined);
-
-  const nftIndex = contractData?.index;
-  const contentRawBase64 = contractData?.contentRawBase64;
-
-  useEffect(() => {
-    async function updateFullContent() {
-      if(!isActive || (nftIndex === undefined) || !contentRawBase64 || (contentFull !== undefined)) {
-        return;
-      }
-      const newContentFull = await getFullNftContent(nftIndex, contentRawBase64);
-      setContentFull(newContentFull);
-    }
-    updateFullContent();
-  // disabled
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [/* isActive, nftIndex, contentRawBase64, getFullNftContent */]);
 
   const handleDepositConfirm = (inputValue: string) => {
     if (inputValue.trim() === "") return;
@@ -101,7 +77,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
 
   return (
     <div className="card">
-      <CardHeader title={"Unlocks on " + (contractData?.targetPrice?.toFixed(2) ?? "null")} />
+      <CardHeader title={"#" + (contractData.index) + ": Unlocks on " + (contractData.targetPrice?.toFixed(2) ?? "null")} />
       <CardItem 
         title="Address" 
         text={contractAddress} 

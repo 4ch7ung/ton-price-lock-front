@@ -45,6 +45,27 @@
   border-radius: 16px;
 }
 
+.big-card-button {
+  padding: 8px;
+  margin: 2em;
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #2e3a47;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: border-color 0.25s, background-color 0.25s;
+}
+
+.big-card-button:hover {
+  background-color: #374856;
+  border-color: #646cff;
+}
+
 .card-header {
   font-size: 22px;
   font-weight: 500;

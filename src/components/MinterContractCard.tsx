@@ -1,5 +1,6 @@
 import { useInputPopup } from '../context/InputPopupContext';
 import { useMinterContract } from '../hooks/useMinterContract';
+import { BigCardButton } from './card/BigCardButton';
 import { CardHeader } from './card/CardHeader';
 import { CardItem } from './card/CardItem';
 import { CardItemWithButton } from './card/CardItemWithButton';
@@ -46,7 +47,23 @@ export function MinterContractCard() {
       onCancel: popup.closePopup
     });
   }
+
+  if (!isConnected) {
+    return (
+      <></>
+    );
+  }
+
+  if (isConnected && !isOwner) {
+    return (
+      <BigCardButton
+          title="Create Lock"
+          onClick={handleMintClick}
+      />
+    );
+  }
   
+  // isConnected && isOwner
   return (
     <div className="card"> 
       <CardHeader title="Minter contract" onRefresh={getMinterData} />

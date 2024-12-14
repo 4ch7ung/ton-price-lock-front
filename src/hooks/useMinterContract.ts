@@ -76,7 +76,7 @@ export function useMinterContract() {
     contractBalance: balance,
     contractData: contractData,
     isConnected: connected,
-    isOwner: sender?.address?.toString() == contractData?.owner?.toString(),
+    isOwner: (sender?.address !== undefined) && (sender.address.toString() == contractData?.owner?.toString()),
     sendMint: async(targetPrice: number, value: number) => {
       if (minterContract == null) {
         return;
