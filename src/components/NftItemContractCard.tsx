@@ -2,21 +2,23 @@ import { useNftContract } from "../hooks/useNftContract";
 import { CardHeader } from "./card/CardHeader";
 import { CardItem } from "./card/CardItem";
 import { CardItemWithButton } from "./card/CardItemWithButton";
-import { useSharedState } from "../context/SharedStateContext";
 import { useInputPopup } from "../context/InputPopupContext";
 
 export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
 
   const popup = useInputPopup();
-  const { value: sharedState } = useSharedState();
 
   const {
     contractAddress,
     contractAddressFull,
     contractBalance,
-    contractData,
+    index,
+    isInitialized,
+    targetPrice,
+    targetUsdtValue,
     isConnected,
     isActive,
+    isAvailableToWithdraw,
     sendDeposit,
     sendWithdraw,
   } = useNftContract(nftAddress);
@@ -53,7 +55,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
     );
   }
 
-  if (!contractData) {
+  if (index === undefined) {
     return (
       <div className="card">
         <CardHeader title="NFT contract loading..." />
@@ -62,45 +64,47 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
     );
   }
 
-  if (!contractData.initialized) {
+  if (!isInitialized) {
     return (
       <div className="card">
-        <CardHeader title={"Uinitialized NFT " + contractData.index} />
+        <CardHeader title={"Uinitialized NFT " + index} />
         <CardItem title="Address" text={contractAddress} />
       </div>
     );
   }
 
-  const isAvailableToWithdraw = (contractData.targetPrice !== undefined) 
-                              && (sharedState.lpPrice !== undefined) 
-                              && (sharedState.lpPrice >= contractData.targetPrice);
-
   return (
     <div className="card">
-      <CardHeader title={"#" + (contractData.index) + ": Unlocks on " + (contractData.targetPrice?.toFixed(2) ?? "null")} />
+      <CardHeader title={"#" + (index) + ": Unlocks on " + (targetPrice?.toFixed(2) ?? "null")} />
       <CardItem 
         title="Address" 
         text={contractAddress} 
         copyButtonClick={() => navigator.clipboard.writeText(contractAddressFull ?? "") } 
       />
+      {contractBalance !== null && 
       <CardItemWithButton
         title="Value"
-        text={contractBalance ?? "null"}
+        text={contractBalance}
         buttonText="Deposit"
         buttonClick={handleDepositClick}
         showButton={isConnected}
       />
+      }
+      {targetUsdtValue !== undefined &&
       <CardItem
         title="Target USDT value"
-        text={(contractBalance !== null && contractData.targetPrice !== undefined) ? (Number(contractBalance) * contractData.targetPrice).toFixed(2) + " USDT" : "null"}
+        text={targetUsdtValue.toFixed(2) + " USDT"}
       />
+      }
+      {targetPrice !== undefined &&
       <CardItemWithButton 
         title="Target price" 
-        text={"1 TON = " + (contractData?.targetPrice?.toFixed(2) ?? "null") + " USDT"} 
+        text={"1 TON = " + targetPrice.toFixed(2) + " USDT"} 
         buttonText="Claim" 
         buttonClick={sendWithdraw}
         showButton={isConnected && isAvailableToWithdraw}
       />
+      }
     </div>
   );
 }

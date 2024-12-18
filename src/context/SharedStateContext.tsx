@@ -1,7 +1,14 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+export type LockValues = {
+  tonBalance: number;
+  usdtValue: number;
+  targetUsdtValue: number;
+};
+
 type ContextType = {
   lpPrice?: number;
+  locks?: Map<number, LockValues>
 };
 const defaultValue: ContextType = {};
 

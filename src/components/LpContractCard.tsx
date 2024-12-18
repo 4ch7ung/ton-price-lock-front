@@ -44,7 +44,7 @@ export function LpContractCard() {
   }
   
   return (
-    <div className="card">
+  <div className="card">
     <CardHeader title="LP contract" onRefresh={getPoolData} />
     <CardItem
       title="Address"

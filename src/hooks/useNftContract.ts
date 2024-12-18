@@ -6,6 +6,7 @@ import { Address, fromNano, OpenedContract, toNano } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 import { shortenAddress } from "../utils/formattingUtils";
 import { sleep } from "../utils/controlUtils";
+import { useSharedState, LockValues } from "../context/SharedStateContext";
 
 export type LockContractData = {
   initialized: boolean,
@@ -24,6 +25,7 @@ export type LockContractData = {
 export function useNftContract(address: string) {
   const tonClient = useTonClient();
   const { sender, connected } = useTonConnect();
+  const { value: sharedState, setValue: setSharedState } = useSharedState();
   
   const [contractData, setContractData] = useState<null | LockContractData>();
   const [balance, setBalance] = useState<null | string>(null);
@@ -72,14 +74,47 @@ export function useNftContract(address: string) {
   useEffect(() => {
     getValue();
   }, [lockContract, getValue, isActive]);
+  
+  const index = contractData?.index;
+  const balanceNum = balance !== null ? Number(balance) : undefined;
+  const currentUsdtValue = (balanceNum !== undefined && sharedState.lpPrice !== undefined) ? (balanceNum * sharedState.lpPrice) : undefined;
+  const targetUsdtValue = (balanceNum !== undefined && contractData?.targetPrice !== undefined) ? (balanceNum * contractData.targetPrice) : undefined;
+
+  useEffect(() => {
+    if (index === undefined || balanceNum === undefined || currentUsdtValue === undefined || targetUsdtValue === undefined) {
+      return;
+    }
+
+    const mapOfValues = sharedState.locks ?? new Map<number, LockValues>();
+    mapOfValues.set(index, {
+      tonBalance: balanceNum,
+      usdtValue: currentUsdtValue,
+      targetUsdtValue: targetUsdtValue
+    });
+
+    setSharedState({
+      ...sharedState,
+      locks: mapOfValues
+    })
+  // we change only locks and only one at a time, so we don't need to update on sharedState change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, balanceNum, currentUsdtValue, targetUsdtValue]);
+
+  const isAvailableToWithdraw = (contractData?.targetPrice !== undefined) 
+                              && (sharedState.lpPrice !== undefined) 
+                              && (sharedState.lpPrice >= contractData.targetPrice);
 
   return {
     contractAddress: shortenAddress(lockContract?.address.toString()),
     contractAddressFull: lockContract?.address.toString(),
     contractBalance: balance,
-    contractData: contractData,
+    index: index,
+    isInitialized: contractData?.initialized,
+    targetPrice: contractData?.targetPrice,
+    targetUsdtValue: targetUsdtValue,
     isConnected: connected,
     isActive: isActive,
+    isAvailableToWithdraw: isAvailableToWithdraw,
     sendDeposit: async(value: number) => {
       return lockContract?.sendDepositMessage(sender, toNano(value));
     },
