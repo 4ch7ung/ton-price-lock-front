@@ -4,6 +4,7 @@ export type LockValues = {
   tonBalance: number;
   usdtValue: number;
   targetUsdtValue: number;
+  isAvailableToWithdraw: boolean;
 };
 
 type ContextType = {

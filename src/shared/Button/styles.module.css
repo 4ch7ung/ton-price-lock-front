@@ -1,0 +1,22 @@
+.button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.active {
+  background-color: var(--blue);
+  color: var(--primary-text);
+}
+
+.disabled {
+  background-color: color-mix(in srgb, var(--button-bg), transparent 80%);
+  opacity: 0.3;
+  color: var(--primary-text);
+  cursor: auto;
+}

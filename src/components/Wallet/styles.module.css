@@ -1,0 +1,34 @@
+.wallet {
+  padding: 7px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  color: var(--primary-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.balance {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.opacity {
+  font-size: 14px;
+  opacity: 0.35;
+}
+
+.ton {
+  background-color: var(--blue);
+}
+
+.usdt {
+  background-color: var(--green);
+}

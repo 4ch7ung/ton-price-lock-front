@@ -48,7 +48,7 @@ export function MinterContractCard() {
     });
   }
 
-  if (!isConnected) {
+  if (!isConnected || !isOwner) {
     return (
       <></>
     );

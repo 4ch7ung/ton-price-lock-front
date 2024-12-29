@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './InputPopup.css';
+import styles from './InputPopup.module.css';
 
 export type InputPopupParams = {
   title: string;
@@ -39,37 +39,37 @@ export const InputPopup = ({ isVisible, params }: { isVisible: boolean, params: 
   
   return (
     <div
-      className="popup-overlay"
+      className={styles.overlay}
       onClick={params.onCancel} // Close the popup when clicking outside the container
     >
       <div
-        className="popup-container"
+        className={styles.container}
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
       >
-        <h2 className="popup-title">{params.title}</h2>
+        <h2 className={styles.title}>{params.title}</h2>
         <input
-          className="popup-input"
+          className={styles.input}
           placeholder={params.placeholder}
           defaultValue={params.initialValue}
           onChange={handleInputChange}
         />
         {hasSecondInput && (
           <input
-            className="popup-input"
+            className={styles.input}
             placeholder={params.secondPlaceholder}
             defaultValue={params.secondInitialValue}
             onChange={handleSecondInputChange}
           />
         )}
-        <div className="popup-button-row">
+        <div className={styles.buttonRow}>
           <button
-            className="popup-button"
+            className={styles.button}
             onClick={handleConfirm}
           >
             {params.confirmButtonText ?? "Confirm"}
           </button>
           <button
-            className="popup-button"
+            className={styles.button}
             onClick={params.onCancel}
           >
             Cancel

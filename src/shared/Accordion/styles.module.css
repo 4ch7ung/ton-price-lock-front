@@ -1,0 +1,26 @@
+.accordion {
+  /* margin: 8px 0; */
+  overflow: hidden;
+}
+
+.header {
+  height: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 5px;
+  margin-bottom: 10px;
+  opacity: 0.4;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.arrow {
+  height: 14px;
+  transition: transform 0.3s;
+}
+
+.arrow.open {
+  height: 16px;
+  transform: rotate(180deg);
+}

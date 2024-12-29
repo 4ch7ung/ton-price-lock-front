@@ -1,4 +1,8 @@
 import { createContext } from "react";
-import { Network } from "../utils/types";
+import { Network } from "@orbs-network/ton-access";
 
-export const NetworkContext = createContext<Network>("testnet");
+const urlParams = new URLSearchParams(window.location.search);
+const networkParam = urlParams.get("network");
+const network: Network = networkParam === "testnet" ? "testnet" : "mainnet";
+
+export const NetworkContext = createContext<Network>(network);

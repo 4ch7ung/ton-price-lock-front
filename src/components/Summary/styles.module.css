@@ -1,0 +1,29 @@
+.header {
+  opacity: 0.4;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.total {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.locked {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 3px;
+
+  span {
+    margin-left: 5px;
+  }
+}
+
+.available {
+  font-size: 12px;
+  font-weight: 900;
+  opacity: 0.5;
+}

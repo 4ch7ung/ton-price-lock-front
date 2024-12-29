@@ -3,6 +3,7 @@ import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { TonClient } from "@ton/ton";
 import { NetworkContext } from "../context/NetworkContext";
 import { Network } from "../utils/types";
+import { singletonHook } from 'react-singleton-hook';
 
 // Глобальный объект для хранения клиентов
 const tonClientCache: Record<string, TonClient> = {};
@@ -16,7 +17,7 @@ async function getTonClient(network: Network): Promise<TonClient> {
   return tonClientCache[network];
 }
 
-export function useTonClient() {
+export function _useTonClient() {
   const network = useContext(NetworkContext);
   const [client, setClient] = useState<TonClient | null>(null);
 
@@ -39,3 +40,6 @@ export function useTonClient() {
 
   return client;
 }
+
+export const useTonClient = singletonHook(null, _useTonClient);
+// export const useTonClient = _useTonClient;

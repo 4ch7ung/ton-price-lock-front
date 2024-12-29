@@ -1,10 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { ADDRESSES } from "../utils/addresses";
-import { useTonConnect } from "../hooks/useTonConnect";
-import { ToncenterApi, NftItem } from "../api/ToncenterApi";
-import { NftItemContractCard } from "./NftItemContractCard";
-import { NetworkContext } from "../context/NetworkContext";
-import { sleep } from "../utils/controlUtils";
+import { ADDRESSES } from "../../utils/addresses";
+import { useTonConnect } from "../../hooks/useTonConnect";
+import { ToncenterApi, NftItem } from "../../api/ToncenterApi";
+import { NftItemContractCard } from "./../NftItemContractCard";
+import { NetworkContext } from "../../context/NetworkContext";
+import { sleep } from "../../utils/controlUtils";
+import { NFTEmptySection } from "./../NFTEmptySection";
+import { NFTCreateButton } from "./../NFTCreateButton";
+
+import styles from './styles.module.css';
 
 export function NftListSection() {
   const network = useContext(NetworkContext);
@@ -41,6 +45,10 @@ export function NftListSection() {
     fetchNfts();
   }, [connected, network, senderAddress, isAutoUpdate]);
 
+  if (Array.isArray(nfts) && nfts.length === 0) {
+    return <NFTEmptySection />
+  }
+
   return (
     <div>
       {!isAutoUpdate && 
@@ -49,6 +57,7 @@ export function NftListSection() {
           <button onClick={() => setIsAutoUpdate(true)}>Refresh manually</button>
         </div>
       }
+      <NFTCreateButton className={styles.button}>Create Fixed-Profit NFT</NFTCreateButton>
       {nfts && nfts.map((nft) => (
         <NftItemContractCard nftAddress={nft.address} key={nft.index}/>
       ))}
