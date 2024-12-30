@@ -4,11 +4,9 @@ import WebApp from "@twa-dev/sdk";
 import { LpContractCard } from "./components/LpContractCard";
 import { MinterContractCard } from "./components/MinterContractCard";
 import { NftListSection } from "./components/NftListSection";
-import { BalanceCard } from "./components/BalanceCard";
 import { Header } from "./components/Header";
 import { Wallet } from "./components/Wallet";
 import { Accordion } from "./shared/Accordion";
-import { NFTEmptySection } from "./components/NFTEmptySection";
 import { Summary } from "./components/Summary";
 
 function App() {

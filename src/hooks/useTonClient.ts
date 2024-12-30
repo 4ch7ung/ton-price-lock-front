@@ -17,7 +17,7 @@ async function getTonClient(network: Network): Promise<TonClient> {
   return tonClientCache[network];
 }
 
-export function _useTonClient() {
+export function useTonClientHook() {
   const network = useContext(NetworkContext);
   const [client, setClient] = useState<TonClient | null>(null);
 
@@ -41,5 +41,5 @@ export function _useTonClient() {
   return client;
 }
 
-export const useTonClient = singletonHook(null, _useTonClient);
+export const useTonClient = singletonHook(null, useTonClientHook);
 // export const useTonClient = _useTonClient;

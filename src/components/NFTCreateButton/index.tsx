@@ -5,7 +5,7 @@ import { useMinterContract } from '../../hooks/useMinterContract';
 
 import { Button } from '../../shared/Button';
 
-import styles from "./styles.module.css";
+// import styles from "./styles.module.css";
 
 export const NFTCreateButton = ({children, className}: {children: React.ReactNode, className?: string}) => {
   const popup = useInputPopup();

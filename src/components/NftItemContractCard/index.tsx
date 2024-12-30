@@ -1,7 +1,4 @@
 import { useNftContract } from "../../hooks/useNftContract";
-import { CardHeader } from "./../card/CardHeader";
-import { CardItem } from "./../card/CardItem";
-import { CardItemWithButton } from "./../card/CardItemWithButton";
 import { useInputPopup } from "../../context/InputPopupContext";
 import { Lock } from "@gravity-ui/icons";
 
