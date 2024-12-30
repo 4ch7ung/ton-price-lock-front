@@ -13,7 +13,7 @@ export const NFTEmptySection: React.FC = () => {
         <li>ENTER TON AMOUNT</li>
         <li>MINT YOUR USDT-FIXED NFT</li>
       </ol>
-      <NFTCreateButton>Create Fixed-Profit NFT</NFTCreateButton>
+      <NFTCreateButton className={styles.button}>Create Fixed-Profit NFT</NFTCreateButton>
     </div>
   );
 };

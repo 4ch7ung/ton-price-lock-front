@@ -2,9 +2,10 @@
 .nftSection {
   background-color: color-mix(in srgb, var(--opposite-bg), transparent 90%);
   color: var(--primary-text);
-  padding: 16px;
-  border-radius: 8px;
+  padding: 20px;
+  border-radius: 20px;
   text-align: center;
+  font-weight: 900;
 }
 
 .header {
@@ -12,15 +13,19 @@
   margin-left: auto;
   margin-right: auto;
   font-size: 20px;
-  margin-bottom: 12px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   line-height: 1;
-  font-weight: 900;
 }
 
 .list {
   text-align: left;
-  margin: 0 auto 16px;
-  font-weight: 900;
+  margin: 0 auto 20px;
   list-style-type: decimal;
   margin-inline-start: 16px;
+  line-height: 1.1;
+}
+
+.button {
+  border-radius: 12px;
 }

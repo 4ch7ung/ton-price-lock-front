@@ -45,8 +45,8 @@ export function NftListSection() {
     fetchNfts();
   }, [connected, network, senderAddress, isAutoUpdate]);
 
-  if (Array.isArray(nfts) && nfts.length === 0) {
-    return <NFTEmptySection />
+  if (!connected || !senderAddress || (Array.isArray(nfts) && nfts.length === 0)) {
+    return <NFTEmptySection />;
   }
 
   return (
