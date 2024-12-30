@@ -16,6 +16,6 @@ export function CopyButton({ onClick }: { onClick: () => void }) {
   return !isCopied ? (
     <Copy onClick={handleClick} style={{ width: 10, height: 10 }} />
   ) : (
-    <CircleCheck />
+    <CircleCheck style={{ width: 10, height: 10, color: 'var(--green)' }} />
   );
 }

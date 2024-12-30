@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import "./reset.css";
 import "./App.css";
 import WebApp from "@twa-dev/sdk";
 import { LpContractCard } from "./components/LpContractCard";
@@ -22,7 +23,7 @@ function App() {
     <div id="content">
       <Header isInTWA={isInTWA} />
       <main className="main">
-        <div style={{marginBottom: 20}}>
+        <div style={{ marginBottom: 20 }}>
           <Summary />
         </div>
         <Accordion title="Wallets">
@@ -33,7 +34,7 @@ function App() {
           <NftListSection />
         </Accordion>
       </main>
-      <footer className="footer">
+      <footer className="footer" style={{ display: "none" }}>
         <MinterContractCard />
         <LpContractCard />
       </footer>

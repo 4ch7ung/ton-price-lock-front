@@ -10,6 +10,21 @@
   --button-text: #000000;
 }
 
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(var(--primary-text), 0.87);
+  background-color: var(--primary-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   font-size: 16px;
 }
@@ -26,7 +41,7 @@ body {
 .main {
   top: 0;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px 16px;
 }
 
 .main-section {
@@ -168,21 +183,6 @@ button.card-item-button:focus-visible {
 .footer .card {
   width: 100%; /* Full width for small screens */
   max-width: 768px; /* Optional: set a max-width */
-}
-
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(var(--primary-text), 0.87);
-  background-color: var(--primary-bg);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 @media screen and (min-width: 768px) {

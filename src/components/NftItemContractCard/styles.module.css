@@ -1,8 +1,8 @@
 .wrapper {
   background-color: color-mix(in srgb, var(--opposite-bg), transparent 80%);
   color: var(--primary-text);
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 9px;
+  border-radius: 15px;
   margin-bottom: 10px;
 }
 
@@ -10,7 +10,7 @@
   display: flex;
   align-items: stretch;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .leftColumn {
@@ -31,7 +31,7 @@
 .price {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 
 .count {
@@ -52,12 +52,13 @@
 
 .delimiter {
   opacity: 0.1;
+  margin-bottom: 10px;
 }
 
 .buttons {
   margin-bottom: 10px;
   display: flex;
-  gap: 20px;
+  gap: 19px;
 }
 
 .button {

@@ -52,9 +52,9 @@ export function NftListSection() {
   return (
     <div>
       {!isAutoUpdate && 
-        <div>
-          <span>Auto update is disabled due to fetch error.</span>
-          <button onClick={() => setIsAutoUpdate(true)}>Refresh manually</button>
+        <div className={styles.updateWrapper}>
+          <div className={styles.text}>Auto update is disabled due to fetch error.</div>
+          <button onClick={() => {setIsAutoUpdate(true);}}>Refresh manually</button>
         </div>
       }
       <NFTCreateButton className={styles.button}>Create Fixed-Profit NFT</NFTCreateButton>

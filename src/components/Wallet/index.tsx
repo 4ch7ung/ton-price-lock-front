@@ -36,9 +36,9 @@ export const Wallet: React.FC<WalletProps> = ({
   return (
     <div className={cn(styles.wallet, styles[type])}>
       <div className={styles.row}>
-        <span className={styles.balance}>{(balance * (value?.lpPrice || 0)).toFixed(3)} USDT</span>
+        <span className={styles.balance}>{(balance * (value?.lpPrice || 0)).toFixed(2)} USDT</span>
         <span className={styles.opacity}>
-          {(value.lpPrice || 0).toFixed(3)}$
+          {(value.lpPrice || 0).toFixed(2)}$
         </span>
       </div>
       <div className={styles.opacity}>

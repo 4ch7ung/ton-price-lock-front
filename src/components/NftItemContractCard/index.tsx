@@ -81,9 +81,9 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
         <div className={styles.leftColumn}>
           <div className={styles.price}>
             {(isAvailableToWithdraw
-              ? targetUsdtValue
-              : currentUsdtValue
-            )?.toFixed(3)}{" "}
+              ? currentUsdtValue
+              : targetUsdtValue
+            )?.toFixed(2)}{" "}
             USDT
           </div>
           <div className={styles.count}>{contractBalance} TON</div>
@@ -129,7 +129,7 @@ export function NftItemContractCard({ nftAddress }: { nftAddress: string }) {
       {targetPrice && (
         <div className={styles.condition}>
           Withdrawal possible when TON rate reaches unlock price: 1 TON ={" "}
-          {targetPrice.toFixed(3)} USDT
+          {targetPrice.toFixed(2)} USDT
         </div>
       )}
 

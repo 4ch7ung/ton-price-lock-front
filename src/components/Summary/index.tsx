@@ -43,11 +43,11 @@ export function Summary() {
     let totalValueLocked = 0;
     sharedState.locks.forEach((lock) => {
       totalValue += lock.isAvailableToWithdraw
-        ? lock.targetUsdtValue
-        : lock.usdtValue;
-      totalValueLocked += !lock.isAvailableToWithdraw ? lock.usdtValue : 0;
+        ? lock.usdtValue
+        : lock.targetUsdtValue;
+      totalValueLocked += !lock.isAvailableToWithdraw ? lock.targetUsdtValue : 0;
       totalValueUnlocked += lock.isAvailableToWithdraw
-        ? lock.targetUsdtValue
+        ? lock.usdtValue
         : 0;
     });
 
@@ -62,21 +62,21 @@ export function Summary() {
 
   return (
     <div>
-      <h2 className={styles.header}>Total</h2>
+      <h2 className={styles.header}>Total Balance</h2>
       <div className={styles.total}>
-        {((balance || 0) * (sharedState.lpPrice || 0) + totalValue).toFixed(3)}{" "}
+        {((balance || 0) * (sharedState.lpPrice || 0) + totalValue).toFixed(2)}{" "}
         USDT
       </div>
       <div className={styles.locked}>
         <Lock />
-        <span>Locked: {totalValueLocked.toFixed(3)} USDT</span>
+        <span>Locked: {totalValueLocked.toFixed(2)} USDT</span>
       </div>
       <div className={styles.available}>
         Available now:{" "}
         {(
           (balance || 0) * (sharedState.lpPrice || 0) +
           totalValueUnlocked
-        ).toFixed(3)}{" "}
+        ).toFixed(2)}{" "}
         USDT
       </div>
     </div>
