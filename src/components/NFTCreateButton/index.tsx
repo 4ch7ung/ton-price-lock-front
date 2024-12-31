@@ -62,6 +62,8 @@ export const NFTCreateButton = ({
         isOpen={modalVisible}
         onClose={() => {
           setModalVisible((state) => !state);
+          setTarget("");
+          setAmount("");
         }}
         title={Title}
         footer={
@@ -71,7 +73,7 @@ export const NFTCreateButton = ({
           </Button>
           <div className={styles.imp}>
             <div className={styles.impHeader}>IMPORTANT: </div>
-            <div className={styles.impText}>This NFT is created autonomously on a smart-contract and only it’s owner has access to these funds. This NFT you can garantued exchange when TON’s rate will reach {Number(target) > 0 ? `${target} USDT` : 'your target rate'}. You can send this NFT to anyone else using TON wallet</div>
+            <div className={styles.impText}>This NFT is created autonomously on a smart-contract and only it’s owner has access to these funds. This NFT you can garantued exchange when TON’s rate will reach {Number(target) > 0 ? `${target} USDT` : 'your target rate'}. You can send this NFT to anyone else using TON wallet. Creation fee ≈1.015 TON.</div>
           </div>
         </div>
         }
