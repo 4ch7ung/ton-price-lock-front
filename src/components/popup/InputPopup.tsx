@@ -4,8 +4,8 @@ import { Xmark } from "@gravity-ui/icons";
 import { Button } from "../../shared/Button";
 
 import styles from "./InputPopup.module.css";
-import { useSharedState } from "../../context/SharedStateContext";
-import { useBalance } from "../../hooks/useBalance";
+// import { useSharedState } from "../../context/SharedStateContext";
+// import { useBalance } from "../../hooks/useBalance";
 
 export type InputPopupParams = {
   title: string;
@@ -31,8 +31,8 @@ export const InputPopup = ({
     params.initialValue ?? ""
   );
 
-  const { value } = useSharedState();
-  const [balance] = useBalance();
+  // const { value } = useSharedState();
+  // const [balance] = useBalance();
 
   if (!isVisible) return <></>;
 
