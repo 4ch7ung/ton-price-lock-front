@@ -1,7 +1,7 @@
 {
   "name": "Locked TON",
-  "image": "https://4ch7ung.github.io/ton-price-lock-front/nft/item.jpg",
-  "description": "You have locked some TON. You can unlock it when the price reaches a certain level. Please visit https://app.connectapp.com/ton-price-lock-front/ to interact.",
+  "image": "https://lock.connectapp.com/nft/item.jpg",
+  "description": "You have locked some TON. You can unlock it when the price reaches a certain level. Please visit https://lock.connectapp.com to interact.",
   "attributes": [
       {
           "trait_type": "Lock Price",
@@ -11,7 +11,7 @@
   "buttons": [
     {
       "label": "Interact",
-      "uri": "https://app.connectapp.com/ton-price-lock-front/?network=mainnet"
+      "uri": "https://lock.connectapp.com/?network=mainnet"
     }
   ]
 }
