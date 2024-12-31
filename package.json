@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint ./src --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "dev": "node server",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "preview": "cross-env NODE_ENV=production node server",
+    "lint": "eslint ./src --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@gravity-ui/icons": "^2.12.0",
@@ -18,10 +20,14 @@
     "@tonconnect/ui-react": "^2.0.9",
     "@twa-dev/sdk": "^8.0.1",
     "classnames": "^2.5.1",
+    "compression": "^1.7.5",
+    "cross-env": "^7.0.3",
+    "express": "^4.21.2",
     "qrcode.react": "^4.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-singleton-hook": "^4.0.1",
+    "sirv": "^3.0.0",
     "uuid": "^11.0.3",
     "vite-plugin-node-polyfills": "^0.22.0"
   },
