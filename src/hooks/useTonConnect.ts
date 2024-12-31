@@ -1,8 +1,8 @@
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import { Address, Sender, SenderArguments } from "@ton/core";
+import { Address, SenderArguments } from "@ton/core";
 import { useEffect, useState } from "react";
 
-export function useTonConnect(): { sender: Sender, connected: boolean } {
+export function useTonConnect() {
   const [tonConnectUI] = useTonConnectUI();
 
   const [connected, setConnected] = useState(false);

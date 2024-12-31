@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@gravity-ui/icons": "^2.12.0",
+    "@gravity-ui/uikit": "^6.40.0",
     "@orbs-network/ton-access": "^2.3.3",
     "@ton/core": "^0.59.0",
     "@ton/crypto": "^3.3.0",

@@ -8,6 +8,7 @@
   --green: #50AF95;
   --button-bg: #ffffff;
   --button-text: #000000;
+  --maxWidth: 500px;
 }
 
 :root {
@@ -36,6 +37,7 @@ body {
 #root {
   margin: 0 auto;
   color: var(--primary-text);
+  max-width: var(--maxWidth);
 }
 
 #content {
@@ -195,9 +197,14 @@ button.card-item-button:focus-visible {
   }
 } */
 
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
   :root {
-    --primary-text: #000;
-    --primary-bg: #fff;
+    --primary-text: #1E1E1E;
+    --primary-bg: #EEEFF1;
+    --opposite-bg: #1E1E1E;
+    --secondary-text: #121214;
+    --secondary-bg: #a0a0a0;
+    --button-bg: #1E1E1E;
+    --button-text: #EEEFF1;
   }
-} */
+}

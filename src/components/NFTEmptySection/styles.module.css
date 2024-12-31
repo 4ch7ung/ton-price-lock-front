@@ -31,3 +31,10 @@
 .button {
   border-radius: 12px;
 }
+
+@media (prefers-color-scheme: light) {
+  .nftSection {
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  }
+}

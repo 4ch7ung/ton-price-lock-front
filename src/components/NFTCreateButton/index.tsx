@@ -1,5 +1,7 @@
 // import { useContext } from "react";
 
+import { useTonConnectModal } from '@tonconnect/ui-react';
+
 import { useInputPopup } from '../../context/InputPopupContext';
 import { useMinterContract } from '../../hooks/useMinterContract';
 
@@ -9,6 +11,8 @@ import { Button } from '../../shared/Button';
 
 export const NFTCreateButton = ({children, className}: {children: React.ReactNode, className?: string}) => {
   const popup = useInputPopup();
+  const { open } = useTonConnectModal();
+  
 
   const {
       isConnected,
@@ -28,6 +32,11 @@ export const NFTCreateButton = ({children, className}: {children: React.ReactNod
     }
   
     const handleMintClick = () => {
+      if (!isConnected) {
+        open();
+        return;
+      }
+
       if (popup.isOpen) {
         popup.closePopup();
         return;
@@ -44,11 +53,11 @@ export const NFTCreateButton = ({children, className}: {children: React.ReactNod
       });
     }
   
-    if (!isConnected) {
-      return (
-        <></>
-      );
-    }
+    // if (!isConnected) {
+    //   return (
+    //     <></>
+    //   );
+    // }
 
   return (
     <Button onClick={handleMintClick} className={className}>{children}</Button>

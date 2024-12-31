@@ -71,7 +71,6 @@ export const InputPopup = ({
             <Xmark />
           </div>
         </div>
-        {value.lpPrice} {balance}
         <input
           className={styles.input}
           placeholder={params.placeholder}
