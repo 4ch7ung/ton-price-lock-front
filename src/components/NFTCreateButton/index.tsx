@@ -46,7 +46,7 @@ export const NFTCreateButton = ({children, className}: {children: React.ReactNod
         title: 'Create Lock',
         placeholder: 'Target rate',
         secondPlaceholder: 'Deposit amount',
-        confirmButtonText: 'Top Up NFT',
+        confirmButtonText: 'Create NFT',
         importantText: 'This NFT is created autonomously on a smart-contract and only it’s owner has access to these funds. This NFT you can garantued exchange when TON’s rate will reach your target price. You can send this NFT to anyone else using TON wallet',
         onConfirm: handleMintConfirm,
         onCancel: popup.closePopup
