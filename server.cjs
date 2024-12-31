@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 
 // Catch-all route
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "dist", "index-heroku.html"));
 });
 
 app.listen(PORT, () => {
