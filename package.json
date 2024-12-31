@@ -4,11 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
-    "preview": "cross-env NODE_ENV=production node server",
+    "dev": "vite",
+    "start": "node server.cjs",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "lint": "eslint ./src --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
