@@ -1,5 +1,11 @@
-import { useState } from 'react';
-import styles from './InputPopup.module.css';
+import { useState } from "react";
+import { Xmark } from "@gravity-ui/icons";
+
+import { Button } from "../../shared/Button";
+
+import styles from "./InputPopup.module.css";
+import { useSharedState } from "../../context/SharedStateContext";
+import { useBalance } from "../../hooks/useBalance";
 
 export type InputPopupParams = {
   title: string;
@@ -8,14 +14,25 @@ export type InputPopupParams = {
   initialValue?: string;
   secondInitialValue?: string;
   confirmButtonText?: string;
+  importantText?: string;
   onConfirm: (value: string, secondValue?: string) => void;
   onCancel: () => void;
 };
 
-export const InputPopup = ({ isVisible, params }: { isVisible: boolean, params: InputPopupParams }) => {
-  
-  const [inputValue, setInputValue] = useState(params.initialValue ?? '');
-  const [secondInputValue, setSecondInputValue] = useState(params.initialValue ?? '');
+export const InputPopup = ({
+  isVisible,
+  params,
+}: {
+  isVisible: boolean;
+  params: InputPopupParams;
+}) => {
+  const [inputValue, setInputValue] = useState(params.initialValue ?? "");
+  const [secondInputValue, setSecondInputValue] = useState(
+    params.initialValue ?? ""
+  );
+
+  const { value } = useSharedState();
+  const [balance] = useBalance();
 
   if (!isVisible) return <></>;
 
@@ -25,9 +42,11 @@ export const InputPopup = ({ isVisible, params }: { isVisible: boolean, params: 
     setInputValue(event.target.value);
   };
 
-  const handleSecondInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSecondInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setSecondInputValue(event.target.value);
-  }
+  };
 
   const handleConfirm = () => {
     if (hasSecondInput) {
@@ -36,7 +55,7 @@ export const InputPopup = ({ isVisible, params }: { isVisible: boolean, params: 
       params.onConfirm(inputValue);
     }
   };
-  
+
   return (
     <div
       className={styles.overlay}
@@ -46,7 +65,13 @@ export const InputPopup = ({ isVisible, params }: { isVisible: boolean, params: 
         className={styles.container}
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
       >
-        <h2 className={styles.title}>{params.title}</h2>
+        <div className={styles.header}>
+          <h2 className={styles.title}>{params.title}</h2>
+          <div className={styles.close} onClick={params.onCancel}>
+            <Xmark />
+          </div>
+        </div>
+        {value.lpPrice} {balance}
         <input
           className={styles.input}
           placeholder={params.placeholder}
@@ -62,19 +87,16 @@ export const InputPopup = ({ isVisible, params }: { isVisible: boolean, params: 
           />
         )}
         <div className={styles.buttonRow}>
-          <button
-            className={styles.button}
-            onClick={handleConfirm}
-          >
+          <Button className={styles.button} onClick={handleConfirm}>
             {params.confirmButtonText ?? "Confirm"}
-          </button>
-          <button
-            className={styles.button}
-            onClick={params.onCancel}
-          >
-            Cancel
-          </button>
+          </Button>
         </div>
+        {params.importantText && (
+          <div className={styles.imp}>
+            <div className={styles.impHeader}>IMPORTANT: </div>
+            <div className={styles.impText}>{params.importantText}</div>
+          </div>
+        )}
       </div>
     </div>
   );

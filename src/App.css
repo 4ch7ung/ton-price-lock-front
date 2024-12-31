@@ -25,6 +25,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-size: 16px;
 }
@@ -185,15 +189,15 @@ button.card-item-button:focus-visible {
   max-width: 768px; /* Optional: set a max-width */
 }
 
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
   .main-section {
     flex-direction: row;
   }
-}
+} */
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     --primary-text: #000;
     --primary-bg: #fff;
   }
-}
+} */

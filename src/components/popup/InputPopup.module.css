@@ -8,14 +8,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .container {
-  background-color: #242e38;
+  background-color: #212121;
   color: #fff;
-  padding: 16px;
-  border-radius: 16px;
+  padding: 18px;
+  border-radius: 11px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   width: 90%;
   max-width: 400px;
@@ -23,27 +23,40 @@
   box-sizing: border-box;
 }
 
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-right: 30px;
+}
+
 .title {
-  margin: 0 0 1.5rem;
   font-size: 22px;
   font-weight: 500;
-  color: #fff;
+  color: var(--primary-text);
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  padding: 5px;
 }
 
 .input {
-  margin-bottom: 1.5rem;
+  margin-bottom: 10px;
   width: 100%;
-  background-color: #2e3a47;
-  border: none;
-  border-radius: 8px;
-  padding: 12px;
-  color: #fff;
-  font-size: 1rem;
-  box-sizing: border-box;
+  background-color: #212121;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px 17px;
+  color: var(--primary-text);
 }
 
 .input::placeholder {
-  color: #8c9aa9;
+  color: var(--primary-text);
+  opacity: 0.5;
 }
 
 .buttonRow {
@@ -53,53 +66,21 @@
 }
 
 .button {
-  padding: 0.6em 1.2em;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: inherit;
-  color: #fff;
-  background-color: #121214;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  width: 100%;
 }
 
-.button:hover {
-  border-color: #646cff;
+.imp {
+  margin-top: 25px;
+  opacity: 0.4;
 }
 
-.button:focus {
-  outline: 4px auto -webkit-focus-ring-color;
+.impHeader {
+  font-size: 9px;
+  font-weight: 900;
+  margin-bottom: 5px;
 }
 
-/* Light mode adjustments */
-/* @media (prefers-color-scheme: light) {
-  .container {
-    background-color: #ffffff;
-    color: #213547;
-  }
-
-  .title {
-    color: #213547;
-  }
-
-  .input {
-    background-color: #f9f9f9;
-    color: #213547;
-  }
-
-  .input::placeholder {
-    color: #8c9aa9;
-  }
-
-  .button {
-    background-color: #f9f9f9;
-    color: #213547;
-  }
-
-  .button:hover {
-    color: #000;
-    border-color: #9AD5F5;
-  }
-} */
+.impText {
+  font-size: 9px;
+  line-height: 11px;
+}
