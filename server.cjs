@@ -8,7 +8,7 @@ app.use(compression());
 const PORT = process.env.PORT || 3000;
 
 // Serve static files
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "dist"), {index: 'index-heroku.html'}));
 
 // Catch-all route
 app.get("*", (req, res) => {
