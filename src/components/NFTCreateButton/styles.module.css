@@ -1,15 +1,30 @@
-.header {
-  display: flex;
-  margin: 0 auto;
-  padding: 12px 16px;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 100;
-  background-color: var(--primary-bg);
+.sum {
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.tonConnectButton {
-  margin-left: auto;
+.remaining {
+  font-size: 12px;
+  opacity: 0.4;
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 100%;
+}
+
+.imp {
+  margin-top: 25px;
+  opacity: 0.4;
+}
+
+.impHeader {
+  font-size: 9px;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+
+.impText {
+  font-size: 9px;
+  line-height: 11px;
 }

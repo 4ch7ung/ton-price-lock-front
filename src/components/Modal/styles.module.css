@@ -44,33 +44,6 @@
   padding: 5px;
 }
 
-.input {
-  margin-bottom: 10px;
-  width: 100%;
-  background-color: var(--primary-bg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 15px 17px;
-  color: var(--primary-text);
-}
-
-.input::placeholder {
-  color: var(--primary-text);
-  opacity: 0.5;
-}
-
-.buttonRow {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-.button {
-  width: 100%;
-}
-
-@media (prefers-color-scheme: light) {
-  .input {
-    border-color: rgba(0, 0, 0, 0.1);
-  }
+.content {
+  margin-top: 16px;
 }

@@ -9,6 +9,23 @@
   --button-bg: #ffffff;
   --button-text: #000000;
   --maxWidth: 500px;
+
+  --modal-bg: #212121;
+}
+
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --primary-text: #1E1E1E;
+    --primary-bg: #EEEFF1;
+    --opposite-bg: #1E1E1E;
+    --secondary-text: #121214;
+    --secondary-bg: #a0a0a0;
+    --button-bg: #1E1E1E;
+    --button-text: #EEEFF1;
+
+    --modal-bg: #fff;
+  }
 }
 
 :root {
@@ -196,15 +213,3 @@ button.card-item-button:focus-visible {
     flex-direction: row;
   }
 } */
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --primary-text: #1E1E1E;
-    --primary-bg: #EEEFF1;
-    --opposite-bg: #1E1E1E;
-    --secondary-text: #121214;
-    --secondary-bg: #a0a0a0;
-    --button-bg: #1E1E1E;
-    --button-text: #EEEFF1;
-  }
-}

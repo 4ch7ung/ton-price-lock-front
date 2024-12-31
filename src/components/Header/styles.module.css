@@ -14,4 +14,9 @@
 
 .tonConnectButton {
   margin-left: auto;
+
+  button {
+    box-shadow: none;
+    border-radius: 12px;
+  }
 }

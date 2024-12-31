@@ -4,8 +4,6 @@ import { Xmark } from "@gravity-ui/icons";
 import { Button } from "../../shared/Button";
 
 import styles from "./InputPopup.module.css";
-// import { useSharedState } from "../../context/SharedStateContext";
-// import { useBalance } from "../../hooks/useBalance";
 
 export type InputPopupParams = {
   title: string;
@@ -14,7 +12,6 @@ export type InputPopupParams = {
   initialValue?: string;
   secondInitialValue?: string;
   confirmButtonText?: string;
-  importantText?: string;
   onConfirm: (value: string, secondValue?: string) => void;
   onCancel: () => void;
 };
@@ -90,12 +87,6 @@ export const InputPopup = ({
             {params.confirmButtonText ?? "Confirm"}
           </Button>
         </div>
-        {params.importantText && (
-          <div className={styles.imp}>
-            <div className={styles.impHeader}>IMPORTANT: </div>
-            <div className={styles.impText}>{params.importantText}</div>
-          </div>
-        )}
       </div>
     </div>
   );
